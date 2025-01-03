@@ -2,8 +2,11 @@ package service
 
 import (
 	"context"
+	"fmt"
+	"strings"
 
 	"github.com/mlflow/mlflow-go/pkg/contract"
+	"github.com/mlflow/mlflow-go/pkg/model_registry/store/sql/models"
 	"github.com/mlflow/mlflow-go/pkg/protos"
 )
 
@@ -96,6 +99,39 @@ func (m *ModelRegistryService) UpdateModelVersion(
 	}
 
 	return &protos.UpdateModelVersion_Response{
+		ModelVersion: modelVersion.ToProto(),
+	}, nil
+}
+
+func (m *ModelRegistryService) TransitionModelVersionStage(
+	ctx context.Context, input *protos.TransitionModelVersionStage,
+) (*protos.TransitionModelVersionStage_Response, *contract.Error) {
+	stage, ok := models.CanonicalMapping[strings.ToLower(input.GetStage())]
+	if !ok {
+		return nil, contract.NewError(
+			protos.ErrorCode_INVALID_PARAMETER_VALUE,
+			fmt.Sprintf(
+				"Invalid Model Version stage: unknown. Value must be one of %s, %s, %s, %s.",
+				models.ModelVersionStageNone,
+				models.ModelVersionStageStaging,
+				models.ModelVersionStageProduction,
+				models.ModelVersionStageArchived,
+			),
+		)
+	}
+
+	modelVersion, err := m.store.TransitionModelVersionStage(
+		ctx,
+		input.GetName(),
+		input.GetVersion(),
+		stage,
+		input.GetArchiveExistingVersions(),
+	)
+	if err != nil {
+		return nil, err
+	}
+
+	return &protos.TransitionModelVersionStage_Response{
 		ModelVersion: modelVersion.ToProto(),
 	}, nil
 }

@@ -57,7 +57,7 @@ func (m *ModelRegistrySQLStore) GetLatestVersions(
 		for idx, stage := range stages {
 			stages[idx] = strings.ToLower(stage)
 			if canonicalStage, ok := models.CanonicalMapping[stages[idx]]; ok {
-				stages[idx] = canonicalStage
+				stages[idx] = canonicalStage.String()
 
 				continue
 			}
@@ -373,6 +373,86 @@ func (m *ModelRegistrySQLStore) UpdateModelVersion(
 		LastUpdatedTime: time.Now().UnixMilli(),
 	}).Error; err != nil {
 		return nil, contract.NewErrorWith(protos.ErrorCode_INTERNAL_ERROR, "error updating model version", err)
+	}
+
+	return modelVersion, nil
+}
+
+//nolint:funlen,cyclop
+func (m *ModelRegistrySQLStore) TransitionModelVersionStage(
+	ctx context.Context, name, version string, stage models.ModelVersionStage, archiveExistingVersions bool,
+) (*entities.ModelVersion, *contract.Error) {
+	isActiveStage := false
+	if _, ok := models.DefaultStagesForGetLatestVersions[strings.ToLower(stage.String())]; ok {
+		isActiveStage = true
+	}
+
+	if archiveExistingVersions && !isActiveStage {
+		return nil, contract.NewError(
+			protos.ErrorCode_INVALID_PARAMETER_VALUE,
+			fmt.Sprintf(
+				`Model version transition cannot archive existing model versions because '%s' is not an Active stage. 
+Valid stages are %s`,
+				stage, models.AllModelVersionStages(),
+			),
+		)
+	}
+
+	modelVersion, err := m.GetModelVersion(ctx, name, version)
+	if err != nil {
+		return nil, err
+	}
+
+	registeredModel, err := m.GetRegisteredModel(ctx, name)
+	if err != nil {
+		return nil, err
+	}
+
+	if err := m.db.Transaction(func(transaction *gorm.DB) error {
+		lastUpdatedTime := time.Now().UnixMilli()
+		if err := transaction.Model(
+			&models.RegisteredModel{},
+		).Where(
+			"name = ?", registeredModel.Name,
+		).Updates(&models.RegisteredModel{
+			LastUpdatedTime: lastUpdatedTime,
+		}).Error; err != nil {
+			return err
+		}
+
+		if err := transaction.Model(
+			&models.ModelVersion{},
+		).Where(
+			"name = ?", modelVersion.Name,
+		).Where(
+			"version = ?", modelVersion.Version,
+		).Updates(&models.ModelVersion{
+			CurrentStage:    stage,
+			LastUpdatedTime: lastUpdatedTime,
+		}).Error; err != nil {
+			return err
+		}
+
+		if archiveExistingVersions {
+			if err := transaction.Where(
+				"name = ?", name,
+			).Where(
+				"version != ?", version,
+			).Where(
+				"current_stage = ?", stage,
+			).Updates(&models.ModelVersion{
+				CurrentStage:    models.ModelVersionStageArchived,
+				LastUpdatedTime: lastUpdatedTime,
+			}).Error; err != nil {
+				return err
+			}
+		}
+
+		return nil
+	}); err != nil {
+		return nil, contract.NewErrorWith(
+			protos.ErrorCode_INTERNAL_ERROR, "error transitioning model version stage", err,
+		)
 	}
 
 	return modelVersion, nil
