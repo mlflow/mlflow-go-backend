@@ -423,7 +423,7 @@ Valid stages are %s`,
 		)
 	}
 
-	modelVersion, err := m.GetModelVersion(ctx, name, version)
+	modelVersion, err := m.GetModelVersion(ctx, name, version, false)
 	if err != nil {
 		return nil, err
 	}
