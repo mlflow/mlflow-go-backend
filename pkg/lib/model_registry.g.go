@@ -55,6 +55,14 @@ func ModelRegistryServiceUpdateModelVersion(serviceID int64, requestData unsafe.
 	}
 	return invokeServiceMethod(service.UpdateModelVersion, new(protos.UpdateModelVersion), requestData, requestSize, responseSize)
 }
+//export ModelRegistryServiceTransitionModelVersionStage
+func ModelRegistryServiceTransitionModelVersionStage(serviceID int64, requestData unsafe.Pointer, requestSize C.int, responseSize *C.int) unsafe.Pointer {
+	service, err := modelRegistryServices.Get(serviceID)
+	if err != nil {
+		return makePointerFromError(err, responseSize)
+	}
+	return invokeServiceMethod(service.TransitionModelVersionStage, new(protos.TransitionModelVersionStage), requestData, requestSize, responseSize)
+}
 //export ModelRegistryServiceDeleteModelVersion
 func ModelRegistryServiceDeleteModelVersion(serviceID int64, requestData unsafe.Pointer, requestSize C.int, responseSize *C.int) unsafe.Pointer {
 	service, err := modelRegistryServices.Get(serviceID)

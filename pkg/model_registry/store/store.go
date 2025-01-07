@@ -5,6 +5,7 @@ import (
 
 	"github.com/mlflow/mlflow-go/pkg/contract"
 	"github.com/mlflow/mlflow-go/pkg/entities"
+	"github.com/mlflow/mlflow-go/pkg/model_registry/store/sql/models"
 	"github.com/mlflow/mlflow-go/pkg/protos"
 )
 
@@ -18,4 +19,7 @@ type ModelRegistryStore interface {
 	GetModelVersion(ctx context.Context, name, version string, eager bool) (*entities.ModelVersion, *contract.Error)
 	DeleteModelVersion(ctx context.Context, name, version string) *contract.Error
 	UpdateModelVersion(ctx context.Context, name, version, description string) (*entities.ModelVersion, *contract.Error)
+	TransitionModelVersionStage(
+		ctx context.Context, name, version string, stage models.ModelVersionStage, archiveExistingVersions bool,
+	) (*entities.ModelVersion, *contract.Error)
 }
