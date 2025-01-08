@@ -16,5 +16,7 @@ type ModelRegistryService interface {
 	GetRegisteredModel(ctx context.Context, input *protos.GetRegisteredModel) (*protos.GetRegisteredModel_Response, *contract.Error)
 	GetLatestVersions(ctx context.Context, input *protos.GetLatestVersions) (*protos.GetLatestVersions_Response, *contract.Error)
 	UpdateModelVersion(ctx context.Context, input *protos.UpdateModelVersion) (*protos.UpdateModelVersion_Response, *contract.Error)
+	TransitionModelVersionStage(ctx context.Context, input *protos.TransitionModelVersionStage) (*protos.TransitionModelVersionStage_Response, *contract.Error)
 	DeleteModelVersion(ctx context.Context, input *protos.DeleteModelVersion) (*protos.DeleteModelVersion_Response, *contract.Error)
+	GetModelVersion(ctx context.Context, input *protos.GetModelVersion) (*protos.GetModelVersion_Response, *contract.Error)
 }
