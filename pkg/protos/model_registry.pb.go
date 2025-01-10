@@ -1365,9 +1365,9 @@ type SetRegisteredModelTag struct {
 	// Name of the tag. Maximum size depends on storage backend.
 	// If a tag with this name already exists, its preexisting value will be replaced by the specified `value`.
 	// All storage backends are guaranteed to support key values up to 250 bytes in size.
-	Key *string `protobuf:"bytes,2,opt,name=key" json:"key,omitempty" query:"key" params:"key"`
+	Key *string `protobuf:"bytes,2,opt,name=key" json:"key,omitempty" query:"key" params:"key" validate:"required,max=250,validMetricParamOrTagName,pathIsUnique"`
 	// String value of the tag being logged. Maximum size depends on storage backend.
-	Value *string `protobuf:"bytes,3,opt,name=value" json:"value,omitempty" query:"value" params:"value"`
+	Value *string `protobuf:"bytes,3,opt,name=value" json:"value,omitempty" query:"value" params:"value" validate:"omitempty,max=5000"`
 }
 
 func (x *SetRegisteredModelTag) Reset() {

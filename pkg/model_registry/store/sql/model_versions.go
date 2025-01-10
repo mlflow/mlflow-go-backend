@@ -9,6 +9,7 @@ import (
 	"time"
 
 	"gorm.io/gorm"
+	"gorm.io/gorm/clause"
 
 	"github.com/mlflow/mlflow-go/pkg/contract"
 	"github.com/mlflow/mlflow-go/pkg/entities"
@@ -481,4 +482,25 @@ Valid stages are %s`,
 	}
 
 	return modelVersion, nil
+}
+
+func (m *ModelRegistrySQLStore) SetRegisteredModelTag(ctx context.Context, name, key, value string) *contract.Error {
+	registeredModel, err := m.GetRegisteredModel(ctx, name)
+	if err != nil {
+		return err
+	}
+
+	if err := m.db.WithContext(ctx).Clauses(clause.OnConflict{
+		UpdateAll: true,
+	}).Create(&models.RegisteredModelTag{
+		Key:   key,
+		Name:  registeredModel.Name,
+		Value: value,
+	}).Error; err != nil {
+		return contract.NewErrorWith(
+			protos.ErrorCode_INTERNAL_ERROR, "error creating registered model tag", err,
+		)
+	}
+
+	return nil
 }

@@ -121,4 +121,15 @@ func RegisterModelRegistryServiceRoutes(service service.ModelRegistryService, pa
 		}
 		return ctx.JSON(output)
 	})
+	app.Post("/mlflow/registered-models/set-tag", func(ctx *fiber.Ctx) error {
+		input := &protos.SetRegisteredModelTag{}
+		if err := parser.ParseBody(ctx, input); err != nil {
+			return err
+		}
+		output, err := service.SetRegisteredModelTag(utils.NewContextWithLoggerFromFiberContext(ctx), input)
+		if err != nil {
+			return err
+		}
+		return ctx.JSON(output)
+	})
 }

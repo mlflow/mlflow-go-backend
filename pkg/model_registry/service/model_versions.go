@@ -158,3 +158,21 @@ func (m *ModelRegistryService) TransitionModelVersionStage(
 		ModelVersion: modelVersion.ToProto(),
 	}, nil
 }
+
+func (m *ModelRegistryService) SetRegisteredModelTag(
+	ctx context.Context, input *protos.SetRegisteredModelTag,
+) (*protos.SetRegisteredModelTag_Response, *contract.Error) {
+	name := input.GetName()
+	if name == "" {
+		return nil, contract.NewError(
+			protos.ErrorCode_INVALID_PARAMETER_VALUE,
+			"Registered model name cannot be empty",
+		)
+	}
+
+	if err := m.store.SetRegisteredModelTag(ctx, name, input.GetKey(), input.GetValue()); err != nil {
+		return nil, err
+	}
+
+	return &protos.SetRegisteredModelTag_Response{}, nil
+}
