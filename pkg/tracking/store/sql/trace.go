@@ -41,7 +41,7 @@ func (s TrackingSQLStore) SetTrace(
 		// It easily works with Python, but it doesn't work with GO,
 		// so that's why we need to pass `request_id`
 		// from Pythong to Go and override traceInfo.RequestID with value from Python.
-		if tag.Key == "request_id" {
+		if tag.Key == "mock.generate_request_id.go.testing.tag" {
 			traceInfo.RequestID = tag.Value
 		} else {
 			traceInfo.Tags = append(traceInfo.Tags, models.NewTraceTagFromEntity(traceInfo.RequestID, tag))
