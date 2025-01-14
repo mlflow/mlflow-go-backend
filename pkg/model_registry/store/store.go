@@ -26,6 +26,9 @@ type ModelVersionStore interface {
 }
 
 type RegisteredModelStore interface {
+	CreateRegisteredModel(
+		ctx context.Context, name, description string, tags []*entities.RegisteredModelTag,
+	) (*entities.RegisteredModel, *contract.Error)
 	GetRegisteredModel(ctx context.Context, name string) (*entities.RegisteredModel, *contract.Error)
 	UpdateRegisteredModel(ctx context.Context, name, description string) (*entities.RegisteredModel, *contract.Error)
 	RenameRegisteredModel(ctx context.Context, name, newName string) (*entities.RegisteredModel, *contract.Error)

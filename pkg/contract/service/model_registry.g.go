@@ -10,6 +10,7 @@ import (
 
 type ModelRegistryService interface {
 	contract.Destroyer
+	CreateRegisteredModel(ctx context.Context, input *protos.CreateRegisteredModel) (*protos.CreateRegisteredModel_Response, *contract.Error)
 	RenameRegisteredModel(ctx context.Context, input *protos.RenameRegisteredModel) (*protos.RenameRegisteredModel_Response, *contract.Error)
 	UpdateRegisteredModel(ctx context.Context, input *protos.UpdateRegisteredModel) (*protos.UpdateRegisteredModel_Response, *contract.Error)
 	DeleteRegisteredModel(ctx context.Context, input *protos.DeleteRegisteredModel) (*protos.DeleteRegisteredModel_Response, *contract.Error)

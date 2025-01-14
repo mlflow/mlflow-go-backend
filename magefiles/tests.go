@@ -38,7 +38,8 @@ func runPythonTests(pytestArgs []string) error {
 	args = append(args, pytestArgs...)
 
 	environmentVariables := map[string]string{
-		"MLFLOW_GO_LIBRARY_PATH": libpath,
+		"MLFLOW_GO_STORE_TESTING": "true",
+		"MLFLOW_GO_LIBRARY_PATH":  libpath,
 		// "PYTHONLOGGING":          "DEBUG",
 	}
 
