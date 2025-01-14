@@ -203,3 +203,21 @@ func (m *ModelRegistryService) CreateRegisteredModel(
 		RegisteredModel: registeredModel.ToProto(),
 	}, nil
 }
+
+func (m *ModelRegistryService) DeleteRegisteredModelTag(
+	ctx context.Context, input *protos.DeleteRegisteredModelTag,
+) (*protos.DeleteRegisteredModelTag_Response, *contract.Error) {
+	name := input.GetName()
+	if name == "" {
+		return nil, contract.NewError(
+			protos.ErrorCode_INVALID_PARAMETER_VALUE,
+			"Registered model name cannot be empty",
+		)
+	}
+
+	if err := m.store.DeleteRegisteredModelTag(ctx, name, input.GetKey()); err != nil {
+		return nil, err
+	}
+
+	return &protos.DeleteRegisteredModelTag_Response{}, nil
+}

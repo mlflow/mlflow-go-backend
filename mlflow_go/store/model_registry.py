@@ -6,6 +6,7 @@ from mlflow.protos.model_registry_pb2 import (
     CreateRegisteredModel,
     DeleteModelVersion,
     DeleteRegisteredModel,
+    DeleteRegisteredModelTag,
     GetLatestVersions,
     GetModelVersion,
     GetRegisteredModel,
@@ -132,6 +133,10 @@ class _ModelRegistryStore:
             entity.description = None
 
         return entity
+
+    def delete_registered_model_tag(self, name, key):
+        request = DeleteRegisteredModelTag(name=name, key=key)
+        self.service.call_endpoint(get_lib().ModelRegistryServiceDeleteRegisteredModelTag, request)
 
 
 def ModelRegistryStore(cls):

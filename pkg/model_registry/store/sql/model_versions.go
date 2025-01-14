@@ -506,6 +506,27 @@ func (m *ModelRegistrySQLStore) SetRegisteredModelTag(ctx context.Context, name,
 	return nil
 }
 
+func (m *ModelRegistrySQLStore) DeleteRegisteredModelTag(ctx context.Context, name, key string) *contract.Error {
+	registeredModel, err := m.GetRegisteredModel(ctx, name)
+	if err != nil {
+		return err
+	}
+
+	if err := m.db.WithContext(ctx).Where(
+		"key = ?", key,
+	).Where(
+		"name = ?", registeredModel.Name,
+	).Delete(
+		&models.RegisteredModelTag{},
+	).Error; err != nil {
+		return contract.NewErrorWith(
+			protos.ErrorCode_INTERNAL_ERROR, "error deleting registered model tag", err,
+		)
+	}
+
+	return nil
+}
+
 func (m *ModelRegistrySQLStore) GetRegisteredModelByName(
 	ctx context.Context, name string,
 ) (*entities.RegisteredModel, *contract.Error) {

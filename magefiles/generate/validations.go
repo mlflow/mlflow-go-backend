@@ -52,4 +52,5 @@ var validations = map[string]string{
 	"SetRegisteredModelTag_Value":        "omitempty,max=5000",
 	"CreateRegisteredModel_Key":          "required,max=250,validMetricParamOrTagName,pathIsUnique",
 	"CreateRegisteredModel_Value":        "omitempty,max=5000,truncate=5000",
+	"DeleteRegisteredModelTag_Key":       "required,max=250,validMetricParamOrTagName,pathIsUnique",
 }
