@@ -64,7 +64,7 @@ var ServiceInfoMap = map[string]ServiceGenerationInfo{
 			// "getModelVersionDownloadUri",
 			"setRegisteredModelTag",
 			// "setModelVersionTag",
-			// "deleteRegisteredModelTag",
+			"deleteRegisteredModelTag",
 			// "deleteModelVersionTag",
 			// "setRegisteredModelAlias",
 			// "deleteRegisteredModelAlias",
