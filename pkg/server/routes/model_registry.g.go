@@ -154,4 +154,15 @@ func RegisterModelRegistryServiceRoutes(service service.ModelRegistryService, pa
 		}
 		return ctx.JSON(output)
 	})
+	app.Post("/mlflow/registered-models/alias", func(ctx *fiber.Ctx) error {
+		input := &protos.SetRegisteredModelAlias{}
+		if err := parser.ParseBody(ctx, input); err != nil {
+			return err
+		}
+		output, err := service.SetRegisteredModelAlias(utils.NewContextWithLoggerFromFiberContext(ctx), input)
+		if err != nil {
+			return err
+		}
+		return ctx.JSON(output)
+	})
 }
