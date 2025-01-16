@@ -137,22 +137,7 @@ func (m *ModelRegistryService) DeleteRegisteredModelTag(
 func (m *ModelRegistryService) SetRegisteredModelAlias(
 	ctx context.Context, input *protos.SetRegisteredModelAlias,
 ) (*protos.SetRegisteredModelAlias_Response, *contract.Error) {
-	name := input.GetName()
-	if name == "" {
-		return nil, contract.NewError(
-			protos.ErrorCode_INVALID_PARAMETER_VALUE,
-			"Registered model name cannot be empty",
-		)
-	}
-
 	alias := input.GetAlias()
-	if alias == "" {
-		return nil, contract.NewError(
-			protos.ErrorCode_INVALID_PARAMETER_VALUE,
-			"Registered model alias name cannot be empty.",
-		)
-	}
-
 	if !RegisteredModelAliasRegex.MatchString(alias) {
 		return nil, contract.NewError(
 			protos.ErrorCode_INVALID_PARAMETER_VALUE,
@@ -179,7 +164,7 @@ func (m *ModelRegistryService) SetRegisteredModelAlias(
 
 	if err := m.store.SetRegisteredModelAlias(
 		ctx,
-		name,
+		input.GetName(),
 		alias,
 		input.GetVersion(),
 	); err != nil {
