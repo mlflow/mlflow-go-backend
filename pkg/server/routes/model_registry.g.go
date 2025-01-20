@@ -4,10 +4,10 @@ package routes
 
 import (
 	"github.com/gofiber/fiber/v2"
-	"github.com/mlflow/mlflow-go/pkg/server/parser"
-	"github.com/mlflow/mlflow-go/pkg/contract/service"
-	"github.com/mlflow/mlflow-go/pkg/utils"
-	"github.com/mlflow/mlflow-go/pkg/protos"
+	"github.com/mlflow/mlflow-go-backend/pkg/server/parser"
+	"github.com/mlflow/mlflow-go-backend/pkg/contract/service"
+	"github.com/mlflow/mlflow-go-backend/pkg/utils"
+	"github.com/mlflow/mlflow-go-backend/pkg/protos"
 )
 
 func RegisterModelRegistryServiceRoutes(service service.ModelRegistryService, parser *parser.HTTPRequestParser, app *fiber.App) {
@@ -149,6 +149,17 @@ func RegisterModelRegistryServiceRoutes(service service.ModelRegistryService, pa
 			return err
 		}
 		output, err := service.DeleteRegisteredModelTag(utils.NewContextWithLoggerFromFiberContext(ctx), input)
+		if err != nil {
+			return err
+		}
+		return ctx.JSON(output)
+	})
+	app.Post("/mlflow/registered-models/alias", func(ctx *fiber.Ctx) error {
+		input := &protos.SetRegisteredModelAlias{}
+		if err := parser.ParseBody(ctx, input); err != nil {
+			return err
+		}
+		output, err := service.SetRegisteredModelAlias(utils.NewContextWithLoggerFromFiberContext(ctx), input)
 		if err != nil {
 			return err
 		}

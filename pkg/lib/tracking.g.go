@@ -5,7 +5,7 @@ package main
 import "C"
 import (
 	"unsafe"
-	"github.com/mlflow/mlflow-go/pkg/protos"
+	"github.com/mlflow/mlflow-go-backend/pkg/protos"
 )
 //export TrackingServiceGetExperimentByName
 func TrackingServiceGetExperimentByName(serviceID int64, requestData unsafe.Pointer, requestSize C.int, responseSize *C.int) unsafe.Pointer {

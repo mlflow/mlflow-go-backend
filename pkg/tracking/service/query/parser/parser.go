@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strconv"
 
-	"github.com/mlflow/mlflow-go/pkg/tracking/service/query/lexer"
+	"github.com/mlflow/mlflow-go-backend/pkg/tracking/service/query/lexer"
 )
 
 type parser struct {

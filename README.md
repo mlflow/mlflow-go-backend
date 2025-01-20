@@ -29,7 +29,7 @@ This package is not yet available on PyPI and currently requires the [Go SDK](ht
 
 You can then install the package via pip:
 ```bash
-pip install git+https://github.com/jgiannuzzi/mlflow-go.git
+pip install git+https://github.com/mlflow/mlflow-go-backend.git
 ```
 
 ## Mage

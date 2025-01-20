@@ -3,8 +3,8 @@ package service
 import (
 	"context"
 
-	"github.com/mlflow/mlflow-go/pkg/contract"
-	"github.com/mlflow/mlflow-go/pkg/protos"
+	"github.com/mlflow/mlflow-go-backend/pkg/contract"
+	"github.com/mlflow/mlflow-go-backend/pkg/protos"
 )
 
 func (ts TrackingService) DeleteTag(

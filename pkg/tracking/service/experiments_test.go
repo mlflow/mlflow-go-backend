@@ -6,9 +6,9 @@ import (
 
 	"github.com/stretchr/testify/mock"
 
-	"github.com/mlflow/mlflow-go/pkg/protos"
-	"github.com/mlflow/mlflow-go/pkg/tracking/store"
-	"github.com/mlflow/mlflow-go/pkg/utils"
+	"github.com/mlflow/mlflow-go-backend/pkg/protos"
+	"github.com/mlflow/mlflow-go-backend/pkg/tracking/store"
+	"github.com/mlflow/mlflow-go-backend/pkg/utils"
 )
 
 type testRelativeArtifactLocationScenario struct {

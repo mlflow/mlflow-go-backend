@@ -6,7 +6,7 @@ import "C"
 import (
 	"unsafe"
 
-	"github.com/mlflow/mlflow-go/pkg/tracking/service"
+	"github.com/mlflow/mlflow-go-backend/pkg/tracking/service"
 )
 
 var trackingServices = newInstanceMap[*service.TrackingService]()

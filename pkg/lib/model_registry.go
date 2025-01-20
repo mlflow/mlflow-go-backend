@@ -5,7 +5,7 @@ import "C"
 import (
 	"unsafe"
 
-	"github.com/mlflow/mlflow-go/pkg/model_registry/service"
+	"github.com/mlflow/mlflow-go-backend/pkg/model_registry/service"
 )
 
 var modelRegistryServices = newInstanceMap[*service.ModelRegistryService]()

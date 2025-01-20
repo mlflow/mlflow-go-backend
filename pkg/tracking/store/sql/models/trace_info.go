@@ -3,7 +3,7 @@ package models
 import (
 	"database/sql"
 
-	"github.com/mlflow/mlflow-go/pkg/entities"
+	"github.com/mlflow/mlflow-go-backend/pkg/entities"
 )
 
 const (

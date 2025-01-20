@@ -4,9 +4,9 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/mlflow/mlflow-go/pkg/config"
-	"github.com/mlflow/mlflow-go/pkg/tracking/store"
-	"github.com/mlflow/mlflow-go/pkg/tracking/store/sql"
+	"github.com/mlflow/mlflow-go-backend/pkg/config"
+	"github.com/mlflow/mlflow-go-backend/pkg/tracking/store"
+	"github.com/mlflow/mlflow-go-backend/pkg/tracking/store/sql"
 )
 
 type TrackingService struct {

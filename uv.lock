@@ -1,12 +1,12 @@
 version = 1
 requires-python = ">=3.9"
 resolution-markers = [
-    "python_full_version < '3.11' and platform_system != 'Windows'",
-    "python_full_version == '3.11.*' and platform_system != 'Windows'",
-    "python_full_version >= '3.12' and platform_system != 'Windows'",
-    "python_full_version < '3.11' and platform_system == 'Windows'",
-    "python_full_version == '3.11.*' and platform_system == 'Windows'",
-    "python_full_version >= '3.12' and platform_system == 'Windows'",
+    "python_full_version < '3.11' and sys_platform != 'win32'",
+    "python_full_version == '3.11.*' and sys_platform != 'win32'",
+    "python_full_version >= '3.12' and sys_platform != 'win32'",
+    "python_full_version < '3.11' and sys_platform == 'win32'",
+    "python_full_version == '3.11.*' and sys_platform == 'win32'",
+    "python_full_version >= '3.12' and sys_platform == 'win32'",
 ]
 
 [[package]]
@@ -207,7 +207,7 @@ name = "click"
 version = "8.1.8"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "colorama", marker = "platform_system == 'Windows'" },
+    { name = "colorama", marker = "sys_platform == 'win32'" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/b9/2e/0090cbf739cee7d23781ad4b89a9894a41538e4fcf4c31dcdd705b78eb8b/click-8.1.8.tar.gz", hash = "sha256:ed53c9d8990d83c2a27deae68e4ee337473f6330c040a31d4225c9574d16096a", size = 226593 }
 wheels = [
@@ -573,7 +573,7 @@ name = "gunicorn"
 version = "23.0.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "packaging", marker = "platform_system != 'Windows'" },
+    { name = "packaging", marker = "sys_platform != 'win32'" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/34/72/9614c465dc206155d93eff0ca20d42e1e35afc533971379482de953521a4/gunicorn-23.0.0.tar.gz", hash = "sha256:f014447a0101dc57e294f6c18ca6b40227a4c90e9bdb586042628030cba004ec", size = 375031 }
 wheels = [
@@ -918,7 +918,7 @@ dependencies = [
     { name = "flask" },
     { name = "gitpython" },
     { name = "graphene" },
-    { name = "gunicorn", marker = "platform_system != 'Windows'" },
+    { name = "gunicorn", marker = "sys_platform != 'win32'" },
     { name = "importlib-metadata" },
     { name = "jinja2" },
     { name = "markdown" },
@@ -937,8 +937,7 @@ dependencies = [
     { name = "scipy" },
     { name = "sqlalchemy" },
     { name = "sqlparse" },
-    { name = "typing-extensions" },
-    { name = "waitress", marker = "platform_system == 'Windows'" },
+    { name = "waitress", marker = "sys_platform == 'win32'" },
 ]
 
 [package.metadata]
@@ -967,12 +966,12 @@ requires-dist = [
     { name = "google-cloud-storage", marker = "extra == 'databricks'", specifier = ">=1.30.0" },
     { name = "google-cloud-storage", marker = "extra == 'extras'", specifier = ">=1.30.0" },
     { name = "graphene", specifier = "<4" },
-    { name = "gunicorn", marker = "platform_system != 'Windows'", specifier = "<24" },
+    { name = "gunicorn", marker = "sys_platform != 'win32'", specifier = "<24" },
     { name = "importlib-metadata", specifier = ">=3.7.0,!=4.7.0,<9" },
-    { name = "jinja2", marker = "platform_system != 'Windows'", specifier = ">=2.11,<4" },
-    { name = "jinja2", marker = "platform_system == 'Windows'", specifier = ">=3.0,<4" },
+    { name = "jinja2", marker = "sys_platform != 'win32'", specifier = ">=2.11,<4" },
+    { name = "jinja2", marker = "sys_platform == 'win32'", specifier = ">=3.0,<4" },
     { name = "kubernetes", marker = "extra == 'extras'" },
-    { name = "langchain", marker = "extra == 'langchain'", specifier = ">=0.1.0,<=0.3.10" },
+    { name = "langchain", marker = "extra == 'langchain'", specifier = ">=0.1.0,<=0.3.9" },
     { name = "markdown", specifier = ">=3.3,<4" },
     { name = "matplotlib", specifier = "<4" },
     { name = "mlflow-dbstore", marker = "extra == 'sqlserver'" },
@@ -1002,17 +1001,16 @@ requires-dist = [
     { name = "sqlparse", specifier = ">=0.4.0,<1" },
     { name = "tiktoken", marker = "extra == 'gateway'", specifier = "<1" },
     { name = "tiktoken", marker = "extra == 'genai'", specifier = "<1" },
-    { name = "typing-extensions", specifier = ">=4.0.0,<5" },
     { name = "uvicorn", extras = ["standard"], marker = "extra == 'gateway'", specifier = "<1" },
     { name = "uvicorn", extras = ["standard"], marker = "extra == 'genai'", specifier = "<1" },
     { name = "virtualenv", marker = "extra == 'extras'" },
-    { name = "waitress", marker = "platform_system == 'Windows'", specifier = "<4" },
+    { name = "waitress", marker = "sys_platform == 'win32'", specifier = "<4" },
     { name = "watchfiles", marker = "extra == 'gateway'", specifier = "<2" },
     { name = "watchfiles", marker = "extra == 'genai'", specifier = "<2" },
 ]
 
 [[package]]
-name = "mlflow-go"
+name = "mlflow-go-backend"
 version = "0.1.0"
 source = { editable = "." }
 dependencies = [
@@ -1032,7 +1030,7 @@ dev = [
 requires-dist = [
     { name = "cffi", specifier = ">=1.17.1" },
     { name = "mlflow", editable = ".mlflow.repo" },
-    { name = "psycopg2-binary", specifier = "==2.9.9" },
+    { name = "psycopg2-binary", specifier = ">=2.9.9" },
 ]
 
 [package.metadata.requires-dev]

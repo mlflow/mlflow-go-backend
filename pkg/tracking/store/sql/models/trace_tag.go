@@ -1,6 +1,6 @@
 package models
 
-import "github.com/mlflow/mlflow-go/pkg/entities"
+import "github.com/mlflow/mlflow-go-backend/pkg/entities"
 
 // TraceTag mapped from table <trace_tags>.
 type TraceTag struct {

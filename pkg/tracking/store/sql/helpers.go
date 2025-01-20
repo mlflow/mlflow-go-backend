@@ -3,9 +3,9 @@ package sql
 import (
 	"fmt"
 
-	"github.com/mlflow/mlflow-go/pkg/entities"
-	"github.com/mlflow/mlflow-go/pkg/tracking/store/sql/models"
-	"github.com/mlflow/mlflow-go/pkg/utils"
+	"github.com/mlflow/mlflow-go-backend/pkg/entities"
+	"github.com/mlflow/mlflow-go-backend/pkg/tracking/store/sql/models"
+	"github.com/mlflow/mlflow-go-backend/pkg/utils"
 )
 
 const (

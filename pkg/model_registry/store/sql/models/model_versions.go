@@ -3,9 +3,9 @@ package models
 import (
 	"database/sql"
 
-	"github.com/mlflow/mlflow-go/pkg/entities"
-	"github.com/mlflow/mlflow-go/pkg/protos"
-	"github.com/mlflow/mlflow-go/pkg/utils"
+	"github.com/mlflow/mlflow-go-backend/pkg/entities"
+	"github.com/mlflow/mlflow-go-backend/pkg/protos"
+	"github.com/mlflow/mlflow-go-backend/pkg/utils"
 )
 
 const StageDeletedInternal = "Deleted_Internal"

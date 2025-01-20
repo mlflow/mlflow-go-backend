@@ -5,7 +5,7 @@ import "C"
 import (
 	"unsafe"
 
-	"github.com/mlflow/mlflow-go/pkg/artifacts/service"
+	"github.com/mlflow/mlflow-go-backend/pkg/artifacts/service"
 )
 
 var artifactsServices = newInstanceMap[*service.ArtifactsService]()

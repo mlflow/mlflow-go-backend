@@ -35,7 +35,7 @@
 				"git.alwaysSignOff": true,
 				"go.lintTool": "golangci-lint",
 				"gopls": {
-					"formatting.local": "github.com/mlflow/mlflow-go",
+					"formatting.local": "github.com/mlflow/mlflow-go-backend",
 					"formatting.gofumpt": true,
 					"build.buildFlags": ["-tags=mage"]
 				},

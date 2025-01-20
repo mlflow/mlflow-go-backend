@@ -3,6 +3,6 @@ filename: "mock_{{ .InterfaceNameSnake }}.go"
 with-expecter: true
 inpackage: true
 packages:
-  github.com/mlflow/mlflow-go/pkg/tracking/store:
+  github.com/mlflow/mlflow-go-backend/pkg/tracking/store:
     interfaces:
       TrackingStore:

@@ -8,10 +8,10 @@ import (
 	"runtime"
 	"strings"
 
-	"github.com/mlflow/mlflow-go/pkg/contract"
-	"github.com/mlflow/mlflow-go/pkg/entities"
-	"github.com/mlflow/mlflow-go/pkg/protos"
-	"github.com/mlflow/mlflow-go/pkg/tracking/store/sql/models"
+	"github.com/mlflow/mlflow-go-backend/pkg/contract"
+	"github.com/mlflow/mlflow-go-backend/pkg/entities"
+	"github.com/mlflow/mlflow-go-backend/pkg/protos"
+	"github.com/mlflow/mlflow-go-backend/pkg/tracking/store/sql/models"
 )
 
 // CreateExperiment implements TrackingService.

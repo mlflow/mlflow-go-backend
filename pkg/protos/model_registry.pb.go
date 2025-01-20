@@ -7,7 +7,7 @@
 package protos
 
 import (
-	_ "github.com/mlflow/mlflow-go/pkg/protos/scalapb"
+	_ "github.com/mlflow/mlflow-go-backend/pkg/protos/scalapb"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -1677,11 +1677,11 @@ type SetRegisteredModelAlias struct {
 	unknownFields protoimpl.UnknownFields
 
 	// Name of the registered model.
-	Name *string `protobuf:"bytes,1,opt,name=name" json:"name,omitempty" query:"name" params:"name"`
+	Name *string `protobuf:"bytes,1,opt,name=name" json:"name,omitempty" query:"name" params:"name" validate:"required"`
 	// Name of the alias. Maximum size depends on storage backend.
 	// If an alias with this name already exists, its preexisting value will be replaced by the specified `version`.
 	// All storage backends are guaranteed to support alias name values up to 256 bytes in size.
-	Alias *string `protobuf:"bytes,2,opt,name=alias" json:"alias,omitempty" query:"alias" params:"alias"`
+	Alias *string `protobuf:"bytes,2,opt,name=alias" json:"alias,omitempty" query:"alias" params:"alias" validate:"required,max=255,validMetricParamOrTagName,pathIsUnique"`
 	// Model version number.
 	Version *string `protobuf:"bytes,3,opt,name=version" json:"version,omitempty" query:"version" params:"version"`
 }

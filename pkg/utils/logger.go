@@ -6,7 +6,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/sirupsen/logrus"
 
-	"github.com/mlflow/mlflow-go/pkg/config"
+	"github.com/mlflow/mlflow-go-backend/pkg/config"
 )
 
 type loggerKey struct{}

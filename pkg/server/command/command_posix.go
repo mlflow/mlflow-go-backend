@@ -7,7 +7,7 @@ import (
 	"os/exec"
 	"syscall"
 
-	"github.com/mlflow/mlflow-go/pkg/utils"
+	"github.com/mlflow/mlflow-go-backend/pkg/utils"
 )
 
 func newProcessGroupCommand(ctx context.Context, cmd *exec.Cmd) (*exec.Cmd, error) {

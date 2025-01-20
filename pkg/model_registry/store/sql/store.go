@@ -6,8 +6,8 @@ import (
 
 	"gorm.io/gorm"
 
-	"github.com/mlflow/mlflow-go/pkg/config"
-	"github.com/mlflow/mlflow-go/pkg/sql"
+	"github.com/mlflow/mlflow-go-backend/pkg/config"
+	"github.com/mlflow/mlflow-go-backend/pkg/sql"
 )
 
 type ModelRegistrySQLStore struct {

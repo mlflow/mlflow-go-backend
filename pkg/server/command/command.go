@@ -7,8 +7,8 @@ import (
 	"os/exec"
 	"time"
 
-	"github.com/mlflow/mlflow-go/pkg/config"
-	"github.com/mlflow/mlflow-go/pkg/utils"
+	"github.com/mlflow/mlflow-go-backend/pkg/config"
+	"github.com/mlflow/mlflow-go-backend/pkg/utils"
 )
 
 func LaunchCommand(ctx context.Context, cfg *config.Config) error {

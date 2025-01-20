@@ -12,7 +12,7 @@ import (
 
 	"github.com/iancoleman/strcase"
 
-	"github.com/mlflow/mlflow-go/magefiles/generate/discovery"
+	"github.com/mlflow/mlflow-go-backend/magefiles/generate/discovery"
 )
 
 func mkMethodInfoInputPointerType(methodInfo discovery.MethodInfo) *ast.StarExpr {
@@ -252,13 +252,13 @@ func generateServices(
 ) error {
 	decls := make([]ast.Decl, 0, len(endpoints)+expectedImportStatements)
 
-	importStatements := []string{`"github.com/mlflow/mlflow-go/pkg/contract"`}
+	importStatements := []string{`"github.com/mlflow/mlflow-go-backend/pkg/contract"`}
 
 	if len(endpoints) > 0 {
 		importStatements = []string{
 			`"context"`,
-			`"github.com/mlflow/mlflow-go/pkg/protos"`,
-			`"github.com/mlflow/mlflow-go/pkg/contract"`,
+			`"github.com/mlflow/mlflow-go-backend/pkg/protos"`,
+			`"github.com/mlflow/mlflow-go-backend/pkg/contract"`,
 		}
 	}
 
@@ -285,15 +285,15 @@ func generateRouteRegistrations(
 ) error {
 	importStatements := []string{
 		`"github.com/gofiber/fiber/v2"`,
-		`"github.com/mlflow/mlflow-go/pkg/server/parser"`,
-		`"github.com/mlflow/mlflow-go/pkg/contract/service"`,
+		`"github.com/mlflow/mlflow-go-backend/pkg/server/parser"`,
+		`"github.com/mlflow/mlflow-go-backend/pkg/contract/service"`,
 	}
 
 	if len(endpoints) > 0 {
 		importStatements = append(
 			importStatements,
-			`"github.com/mlflow/mlflow-go/pkg/utils"`,
-			`"github.com/mlflow/mlflow-go/pkg/protos"`,
+			`"github.com/mlflow/mlflow-go-backend/pkg/utils"`,
+			`"github.com/mlflow/mlflow-go-backend/pkg/protos"`,
 		)
 	}
 
@@ -421,7 +421,7 @@ func generateEndpoints(
 			decls,
 			mkImportStatements(
 				`"unsafe"`,
-				`"github.com/mlflow/mlflow-go/pkg/protos"`,
+				`"github.com/mlflow/mlflow-go-backend/pkg/protos"`,
 			),
 		)
 

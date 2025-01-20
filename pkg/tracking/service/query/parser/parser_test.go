@@ -4,8 +4,8 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/mlflow/mlflow-go/pkg/tracking/service/query/lexer"
-	"github.com/mlflow/mlflow-go/pkg/tracking/service/query/parser"
+	"github.com/mlflow/mlflow-go-backend/pkg/tracking/service/query/lexer"
+	"github.com/mlflow/mlflow-go-backend/pkg/tracking/service/query/parser"
 )
 
 type Sample struct {

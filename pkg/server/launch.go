@@ -8,9 +8,9 @@ import (
 	"sync"
 	"syscall"
 
-	"github.com/mlflow/mlflow-go/pkg/config"
-	"github.com/mlflow/mlflow-go/pkg/server/command"
-	"github.com/mlflow/mlflow-go/pkg/utils"
+	"github.com/mlflow/mlflow-go-backend/pkg/config"
+	"github.com/mlflow/mlflow-go-backend/pkg/server/command"
+	"github.com/mlflow/mlflow-go-backend/pkg/utils"
 )
 
 func Launch(ctx context.Context, cfg *config.Config) error {

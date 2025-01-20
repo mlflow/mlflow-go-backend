@@ -4,7 +4,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/mlflow/mlflow-go/pkg/tracking/service/query"
+	"github.com/mlflow/mlflow-go-backend/pkg/tracking/service/query"
 )
 
 func TestValidQueries(t *testing.T) {

@@ -8,7 +8,7 @@ from mlflow.server import ARTIFACT_ROOT_ENV_VAR, BACKEND_STORE_URI_ENV_VAR
 from mlflow.server.handlers import ModelRegistryStoreRegistryWrapper, TrackingStoreRegistryWrapper
 from mlflow.utils import find_free_port
 
-from mlflow_go.server import server
+from mlflow_go_backend.server import server
 
 from tests.helper_functions import LOCALHOST
 from tests.tracking.integration_test_utils import _await_server_up_or_die

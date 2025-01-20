@@ -39,5 +39,5 @@ jobs:
       - name: Upload wheels artifact
         uses: actions/upload-artifact@v4
         with:
-          name: mlflow-go-wheels-${{ matrix.os }}-${{ matrix.arch }}
+          name: mlflow-go-backend-wheels-${{ matrix.os }}-${{ matrix.arch }}
           path: dist/*.whl

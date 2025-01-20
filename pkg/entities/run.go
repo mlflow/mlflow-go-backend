@@ -3,8 +3,8 @@ package entities
 import (
 	"strings"
 
-	"github.com/mlflow/mlflow-go/pkg/protos"
-	"github.com/mlflow/mlflow-go/pkg/utils"
+	"github.com/mlflow/mlflow-go-backend/pkg/protos"
+	"github.com/mlflow/mlflow-go-backend/pkg/utils"
 )
 
 func RunStatusToProto(status string) *protos.RunStatus {

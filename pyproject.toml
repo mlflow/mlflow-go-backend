@@ -5,11 +5,11 @@ build-backend = "setuptools.build_meta"
 [project]
 license = { file = "LICENSE" }
 
-name = "mlflow-go"
+name = "mlflow-go-backend"
 version = "0.1.0"
 description = "MLflow is an open source platform for the complete machine learning lifecycle"
 readme = "README.md"
-keywords = ["mlflow", "ai", "databricks"]
+keywords = ["mlflow", "go", "golang", "ai", "databricks"]
 classifiers = [
   "Development Status :: 5 - Production/Stable",
   "Intended Audience :: Developers",
@@ -23,40 +23,40 @@ classifiers = [
   "Programming Language :: Python :: 3.9",
 ]
 requires-python = ">=3.9"
-dependencies = ["cffi>=1.17.1", "mlflow>=2.17.0", "psycopg2-binary==2.9.9"]
+dependencies = ["cffi>=1.17.1", "mlflow>=2.19.0", "psycopg2-binary>=2.9.9"]
 [[project.maintainers]]
 name = "Databricks"
 email = "mlflow-oss-maintainers@googlegroups.com"
 
 [project.urls]
 homepage = "https://mlflow.org"
-issues = "https://github.com/mlflow/mlflow-go/issues"
+issues = "https://github.com/mlflow/mlflow-go-backend/issues"
 documentation = "https://mlflow.org/docs/latest/index.html"
-repository = "https://github.com/mlflow/mlflow-go"
+repository = "https://github.com/mlflow/mlflow-go-backend"
 
 [project.scripts]
-mlflow-go = "mlflow_go.cli:cli"
+mlflow-go = "mlflow_go_backend.cli:cli"
 
 [project.entry-points."mlflow.tracking_store"]
-mssql = "mlflow_go.store.tracking:_get_sqlalchemy_store"
-mysql = "mlflow_go.store.tracking:_get_sqlalchemy_store"
-postgresql = "mlflow_go.store.tracking:_get_sqlalchemy_store"
-sqlite = "mlflow_go.store.tracking:_get_sqlalchemy_store"
+mssql = "mlflow_go_backend.store.tracking:_get_sqlalchemy_store"
+mysql = "mlflow_go_backend.store.tracking:_get_sqlalchemy_store"
+postgresql = "mlflow_go_backend.store.tracking:_get_sqlalchemy_store"
+sqlite = "mlflow_go_backend.store.tracking:_get_sqlalchemy_store"
 
 [project.entry-points."mlflow.model_registry_store"]
-mssql = "mlflow_go.store.model_registry:_get_sqlalchemy_store"
-mysql = "mlflow_go.store.model_registry:_get_sqlalchemy_store"
-postgresql = "mlflow_go.store.model_registry:_get_sqlalchemy_store"
-sqlite = "mlflow_go.store.model_registry:_get_sqlalchemy_store"
+mssql = "mlflow_go_backend.store.model_registry:_get_sqlalchemy_store"
+mysql = "mlflow_go_backend.store.model_registry:_get_sqlalchemy_store"
+postgresql = "mlflow_go_backend.store.model_registry:_get_sqlalchemy_store"
+sqlite = "mlflow_go_backend.store.model_registry:_get_sqlalchemy_store"
 
 [tool.setuptools.packages.find]
 where = ["."]
-include = ["mlflow_go", "mlflow_go.*"]
+include = ["mlflow_go_backend", "mlflow_go_backend.*"]
 exclude = ["tests", "tests.*"]
 
 [tool.ruff]
 line-length = 100
-target-version = "py38"
+target-version = "py39"
 force-exclude = true
 extend-include = ["*.ipynb"]
 extend-exclude = [

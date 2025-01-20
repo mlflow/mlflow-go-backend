@@ -4,8 +4,8 @@ package routes
 
 import (
 	"github.com/gofiber/fiber/v2"
-	"github.com/mlflow/mlflow-go/pkg/server/parser"
-	"github.com/mlflow/mlflow-go/pkg/contract/service"
+	"github.com/mlflow/mlflow-go-backend/pkg/server/parser"
+	"github.com/mlflow/mlflow-go-backend/pkg/contract/service"
 )
 
 func RegisterArtifactsServiceRoutes(service service.ArtifactsService, parser *parser.HTTPRequestParser, app *fiber.App) {

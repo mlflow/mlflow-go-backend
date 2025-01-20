@@ -8,8 +8,8 @@ import (
 
 	"github.com/olekukonko/tablewriter"
 
-	"github.com/mlflow/mlflow-go/magefiles/generate"
-	"github.com/mlflow/mlflow-go/magefiles/generate/discovery"
+	"github.com/mlflow/mlflow-go-backend/magefiles/generate"
+	"github.com/mlflow/mlflow-go-backend/magefiles/generate/discovery"
 )
 
 func contains(slice []string, value string) bool {

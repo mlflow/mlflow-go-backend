@@ -8,7 +8,7 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	"github.com/mlflow/mlflow-go/pkg/config"
+	"github.com/mlflow/mlflow-go-backend/pkg/config"
 )
 
 type validSample struct {

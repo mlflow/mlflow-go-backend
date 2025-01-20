@@ -3,7 +3,7 @@ package models
 import (
 	"strconv"
 
-	"github.com/mlflow/mlflow-go/pkg/entities"
+	"github.com/mlflow/mlflow-go-backend/pkg/entities"
 )
 
 // Experiment mapped from table <experiments>.

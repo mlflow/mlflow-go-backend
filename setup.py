@@ -7,7 +7,7 @@ from typing import List, Tuple
 
 from setuptools import Distribution, setup
 
-sys.path.insert(0, pathlib.Path(__file__).parent.joinpath("mlflow_go").as_posix())
+sys.path.insert(0, pathlib.Path(__file__).parent.joinpath("mlflow_go_backend").as_posix())
 from lib import build_lib
 
 
@@ -75,7 +75,7 @@ def finalize_distribution_options(dist: Distribution) -> None:
                 _prune_go_files(self.build_lib)
                 build_lib(
                     pathlib.Path("."),
-                    pathlib.Path(self.build_lib).joinpath("mlflow_go"),
+                    pathlib.Path(self.build_lib).joinpath("mlflow_go_backend"),
                 )
 
         def get_source_files(self) -> List[str]:

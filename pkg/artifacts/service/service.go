@@ -3,7 +3,7 @@ package service
 import (
 	"context"
 
-	"github.com/mlflow/mlflow-go/pkg/config"
+	"github.com/mlflow/mlflow-go-backend/pkg/config"
 )
 
 type ArtifactsService struct {

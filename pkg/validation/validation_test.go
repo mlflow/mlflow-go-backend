@@ -6,9 +6,9 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	"github.com/mlflow/mlflow-go/pkg/protos"
-	"github.com/mlflow/mlflow-go/pkg/utils"
-	"github.com/mlflow/mlflow-go/pkg/validation"
+	"github.com/mlflow/mlflow-go-backend/pkg/protos"
+	"github.com/mlflow/mlflow-go-backend/pkg/utils"
+	"github.com/mlflow/mlflow-go-backend/pkg/validation"
 )
 
 type PositiveInteger struct {

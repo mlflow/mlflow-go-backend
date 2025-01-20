@@ -1,6 +1,6 @@
 package models
 
-import "github.com/mlflow/mlflow-go/pkg/entities"
+import "github.com/mlflow/mlflow-go-backend/pkg/entities"
 
 // RegisteredModelTag mapped from table <registered_model_tags>.
 type RegisteredModelTag struct {

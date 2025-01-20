@@ -23,7 +23,7 @@ func runPythonTests(pytestArgs []string) error {
 	defer os.RemoveAll(libpath)
 
 	// Build the Go binary in a temporary directory
-	if err := sh.RunV("uv", "run", "-m", "mlflow_go.lib", "--", ".", libpath); err != nil {
+	if err := sh.RunV("uv", "run", "-m", "mlflow_go_backend.lib", "--", ".", libpath); err != nil {
 		return nil
 	}
 

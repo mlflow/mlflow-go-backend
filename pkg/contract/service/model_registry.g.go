@@ -4,8 +4,8 @@ package service
 
 import (
 	"context"
-	"github.com/mlflow/mlflow-go/pkg/protos"
-	"github.com/mlflow/mlflow-go/pkg/contract"
+	"github.com/mlflow/mlflow-go-backend/pkg/protos"
+	"github.com/mlflow/mlflow-go-backend/pkg/contract"
 )
 
 type ModelRegistryService interface {
@@ -22,4 +22,5 @@ type ModelRegistryService interface {
 	GetModelVersion(ctx context.Context, input *protos.GetModelVersion) (*protos.GetModelVersion_Response, *contract.Error)
 	SetRegisteredModelTag(ctx context.Context, input *protos.SetRegisteredModelTag) (*protos.SetRegisteredModelTag_Response, *contract.Error)
 	DeleteRegisteredModelTag(ctx context.Context, input *protos.DeleteRegisteredModelTag) (*protos.DeleteRegisteredModelTag_Response, *contract.Error)
+	SetRegisteredModelAlias(ctx context.Context, input *protos.SetRegisteredModelAlias) (*protos.SetRegisteredModelAlias_Response, *contract.Error)
 }

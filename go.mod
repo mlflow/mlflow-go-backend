@@ -1,4 +1,4 @@
-module github.com/mlflow/mlflow-go
+module github.com/mlflow/mlflow-go-backend
 
 go 1.23
 

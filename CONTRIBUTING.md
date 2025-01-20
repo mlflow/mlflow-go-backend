@@ -56,7 +56,7 @@ pip install -e .mlflow.repo
 
 ## Run Go MLflow server
 
-To start the mlflow-go dev server connecting to postgres just run next `mage` target:
+To start the mlflow-go-backend dev server connecting to postgres just run next `mage` target:
 
 ```bash
 mage dev

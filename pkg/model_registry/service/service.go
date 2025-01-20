@@ -4,9 +4,9 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/mlflow/mlflow-go/pkg/config"
-	"github.com/mlflow/mlflow-go/pkg/model_registry/store"
-	"github.com/mlflow/mlflow-go/pkg/model_registry/store/sql"
+	"github.com/mlflow/mlflow-go-backend/pkg/config"
+	"github.com/mlflow/mlflow-go-backend/pkg/model_registry/store"
+	"github.com/mlflow/mlflow-go-backend/pkg/model_registry/store/sql"
 )
 
 type ModelRegistryService struct {

@@ -10,7 +10,7 @@ import (
 	"github.com/gofiber/fiber/v2/log"
 	"github.com/magefile/mage/mg"
 
-	"github.com/mlflow/mlflow-go/magefiles/generate"
+	"github.com/mlflow/mlflow-go-backend/magefiles/generate"
 )
 
 // Generate Go files based on proto files and other configuration.

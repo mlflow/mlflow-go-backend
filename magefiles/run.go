@@ -8,7 +8,7 @@ import (
 	"github.com/magefile/mage/sh"
 )
 
-// Start the mlflow-go dev server connecting to postgres.
+// Start the mlflow-go-backend dev server connecting to postgres.
 func Dev() error {
 	mg.Deps(Generate)
 

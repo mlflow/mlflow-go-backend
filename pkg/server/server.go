@@ -17,16 +17,16 @@ import (
 	"google.golang.org/protobuf/encoding/protojson"
 	"google.golang.org/protobuf/proto"
 
-	as "github.com/mlflow/mlflow-go/pkg/artifacts/service"
-	mr "github.com/mlflow/mlflow-go/pkg/model_registry/service"
-	ts "github.com/mlflow/mlflow-go/pkg/tracking/service"
+	as "github.com/mlflow/mlflow-go-backend/pkg/artifacts/service"
+	mr "github.com/mlflow/mlflow-go-backend/pkg/model_registry/service"
+	ts "github.com/mlflow/mlflow-go-backend/pkg/tracking/service"
 
-	"github.com/mlflow/mlflow-go/pkg/config"
-	"github.com/mlflow/mlflow-go/pkg/contract"
-	"github.com/mlflow/mlflow-go/pkg/protos"
-	"github.com/mlflow/mlflow-go/pkg/server/parser"
-	"github.com/mlflow/mlflow-go/pkg/server/routes"
-	"github.com/mlflow/mlflow-go/pkg/utils"
+	"github.com/mlflow/mlflow-go-backend/pkg/config"
+	"github.com/mlflow/mlflow-go-backend/pkg/contract"
+	"github.com/mlflow/mlflow-go-backend/pkg/protos"
+	"github.com/mlflow/mlflow-go-backend/pkg/server/parser"
+	"github.com/mlflow/mlflow-go-backend/pkg/server/routes"
+	"github.com/mlflow/mlflow-go-backend/pkg/utils"
 )
 
 //nolint:funlen

@@ -10,7 +10,7 @@ The primary goal of this Go implementation of the MLFlow tracking server is to e
 - LogParamBatch10
 - LogParamBatch100
 
-Please note that in the LogMetricBatch500, issue [#81](https://github.com/mlflow/mlflow-go/issues/81) was identified and therefore excluded from the results.
+Please note that in the LogMetricBatch500, issue [#81](https://github.com/mlflow/mlflow-go-backend/issues/81) was identified and therefore excluded from the results.
 
 ## Approach
 

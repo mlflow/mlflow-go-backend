@@ -4,7 +4,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/mlflow/mlflow-go/pkg/tracking/service/query/lexer"
+	"github.com/mlflow/mlflow-go-backend/pkg/tracking/service/query/lexer"
 )
 
 type Sample struct {

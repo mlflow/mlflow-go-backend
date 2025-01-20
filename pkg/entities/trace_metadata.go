@@ -1,6 +1,6 @@
 package entities
 
-import "github.com/mlflow/mlflow-go/pkg/protos"
+import "github.com/mlflow/mlflow-go-backend/pkg/protos"
 
 type TraceRequestMetadata struct {
 	Key       string

@@ -1,6 +1,6 @@
 package models
 
-import "github.com/mlflow/mlflow-go/pkg/entities"
+import "github.com/mlflow/mlflow-go-backend/pkg/entities"
 
 // ModelVersionTag mapped from table <model_version_tags>.
 //

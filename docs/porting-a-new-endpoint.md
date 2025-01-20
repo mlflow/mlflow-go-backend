@@ -157,7 +157,7 @@ func (ts TrackingService) DeleteTag(ctx context.Context, input *protos.DeleteTag
 
 ## Expose the Endpoint via FFI
 
-To access our new endpoint in the Python FFI binding, we need to update our Python store as well. Update [mlflow_go/store/tracking.py](../mlflow_go/store/tracking.py) and add the method matching our endpoint from [.mlflow.repo/mlflow/store/tracking/sqlalchemy_store.py](../.mlflow.repo/mlflow/store/tracking/sqlalchemy_store.py):
+To access our new endpoint in the Python FFI binding, we need to update our Python store as well. Update [mlflow_go_backend/store/tracking.py](../mlflow_go_backend/store/tracking.py) and add the method matching our endpoint from [.mlflow.repo/mlflow/store/tracking/sqlalchemy_store.py](../.mlflow.repo/mlflow/store/tracking/sqlalchemy_store.py):
 
 ```python
 def delete_tag(self, run_id, key):

@@ -13,8 +13,8 @@
 package artifacts
 
 import (
-	_ "github.com/mlflow/mlflow-go/pkg/protos"
-	_ "github.com/mlflow/mlflow-go/pkg/protos/scalapb"
+	_ "github.com/mlflow/mlflow-go-backend/pkg/protos"
+	_ "github.com/mlflow/mlflow-go-backend/pkg/protos/scalapb"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"

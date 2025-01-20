@@ -14,8 +14,8 @@ import (
 
 	"github.com/go-playground/validator/v10"
 
-	"github.com/mlflow/mlflow-go/pkg/contract"
-	"github.com/mlflow/mlflow-go/pkg/protos"
+	"github.com/mlflow/mlflow-go-backend/pkg/contract"
+	"github.com/mlflow/mlflow-go-backend/pkg/protos"
 )
 
 const (

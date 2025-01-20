@@ -3,8 +3,8 @@ package query
 import (
 	"fmt"
 
-	"github.com/mlflow/mlflow-go/pkg/tracking/service/query/lexer"
-	"github.com/mlflow/mlflow-go/pkg/tracking/service/query/parser"
+	"github.com/mlflow/mlflow-go-backend/pkg/tracking/service/query/lexer"
+	"github.com/mlflow/mlflow-go-backend/pkg/tracking/service/query/parser"
 )
 
 func ParseFilter(input string) ([]*parser.ValidCompareExpr, error) {

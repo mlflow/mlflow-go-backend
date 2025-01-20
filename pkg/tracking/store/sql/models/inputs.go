@@ -1,7 +1,7 @@
 package models
 
 import (
-	"github.com/mlflow/mlflow-go/pkg/entities"
+	"github.com/mlflow/mlflow-go-backend/pkg/entities"
 )
 
 const (

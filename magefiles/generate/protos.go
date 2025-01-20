@@ -10,13 +10,13 @@ import (
 const MLFlowCommit = "3effa7380c86946f4557f03aa81119a097d8b433"
 
 var protoFiles = map[string]string{
-	"databricks.proto":           "github.com/mlflow/mlflow-go/pkg/protos",
-	"service.proto":              "github.com/mlflow/mlflow-go/pkg/protos",
-	"model_registry.proto":       "github.com/mlflow/mlflow-go/pkg/protos",
-	"databricks_artifacts.proto": "github.com/mlflow/mlflow-go/pkg/protos",
-	"mlflow_artifacts.proto":     "github.com/mlflow/mlflow-go/pkg/protos/artifacts",
-	"internal.proto":             "github.com/mlflow/mlflow-go/pkg/protos",
-	"scalapb/scalapb.proto":      "github.com/mlflow/mlflow-go/pkg/protos/scalapb",
+	"databricks.proto":           "github.com/mlflow/mlflow-go-backend/pkg/protos",
+	"service.proto":              "github.com/mlflow/mlflow-go-backend/pkg/protos",
+	"model_registry.proto":       "github.com/mlflow/mlflow-go-backend/pkg/protos",
+	"databricks_artifacts.proto": "github.com/mlflow/mlflow-go-backend/pkg/protos",
+	"mlflow_artifacts.proto":     "github.com/mlflow/mlflow-go-backend/pkg/protos/artifacts",
+	"internal.proto":             "github.com/mlflow/mlflow-go-backend/pkg/protos",
+	"scalapb/scalapb.proto":      "github.com/mlflow/mlflow-go-backend/pkg/protos/scalapb",
 }
 
 const fixedArguments = 3
@@ -28,7 +28,7 @@ func RunProtoc(protoDir string) error {
 		arguments,
 		"-I="+protoDir,
 		`--go_out=.`,
-		`--go_opt=module=github.com/mlflow/mlflow-go`,
+		`--go_opt=module=github.com/mlflow/mlflow-go-backend`,
 	)
 
 	for fileName, goPackage := range protoFiles {
