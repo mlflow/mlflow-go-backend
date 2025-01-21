@@ -165,4 +165,15 @@ func RegisterModelRegistryServiceRoutes(service service.ModelRegistryService, pa
 		}
 		return ctx.JSON(output)
 	})
+	app.Delete("/mlflow/registered-models/alias", func(ctx *fiber.Ctx) error {
+		input := &protos.DeleteRegisteredModelAlias{}
+		if err := parser.ParseBody(ctx, input); err != nil {
+			return err
+		}
+		output, err := service.DeleteRegisteredModelAlias(utils.NewContextWithLoggerFromFiberContext(ctx), input)
+		if err != nil {
+			return err
+		}
+		return ctx.JSON(output)
+	})
 }

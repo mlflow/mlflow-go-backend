@@ -111,3 +111,11 @@ func ModelRegistryServiceSetRegisteredModelAlias(serviceID int64, requestData un
 	}
 	return invokeServiceMethod(service.SetRegisteredModelAlias, new(protos.SetRegisteredModelAlias), requestData, requestSize, responseSize)
 }
+//export ModelRegistryServiceDeleteRegisteredModelAlias
+func ModelRegistryServiceDeleteRegisteredModelAlias(serviceID int64, requestData unsafe.Pointer, requestSize C.int, responseSize *C.int) unsafe.Pointer {
+	service, err := modelRegistryServices.Get(serviceID)
+	if err != nil {
+		return makePointerFromError(err, responseSize)
+	}
+	return invokeServiceMethod(service.DeleteRegisteredModelAlias, new(protos.DeleteRegisteredModelAlias), requestData, requestSize, responseSize)
+}

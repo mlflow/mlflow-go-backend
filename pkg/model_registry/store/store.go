@@ -36,4 +36,5 @@ type RegisteredModelStore interface {
 	SetRegisteredModelTag(ctx context.Context, name, key, value string) *contract.Error
 	DeleteRegisteredModelTag(ctx context.Context, name, key string) *contract.Error
 	SetRegisteredModelAlias(ctx context.Context, name, alias, version string) *contract.Error
+	DeleteRegisteredModelAlias(ctx context.Context, name, alias string) *contract.Error
 }
