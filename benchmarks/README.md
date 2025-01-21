@@ -47,6 +47,6 @@ Benchmark results were recorded manually:
 | SearchExperiments         | 20.85                    | 28583             | 8.88                         | 67065                |
 
 ![Duration Results](results_duration.png)
-![Iteration Results](results_iteration.png)
+![Iteration Results](results_iterations.png)
 
 We welcome contributions to automate this process!

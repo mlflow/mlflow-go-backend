@@ -98,7 +98,10 @@ def _get_commands():
         ),
     )
 
-    commands["server"] = click.command(params=server_params)(server)
+    server_command = click.command(params=server_params)(server)
+    commands["server"] = server_command
+    # In mlflow `ui` is an alias of `server`.
+    commands["ui"] = server_command
 
     return commands
 

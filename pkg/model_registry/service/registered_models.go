@@ -173,3 +173,42 @@ func (m *ModelRegistryService) SetRegisteredModelAlias(
 
 	return &protos.SetRegisteredModelAlias_Response{}, nil
 }
+
+func (m *ModelRegistryService) DeleteRegisteredModelAlias(
+	ctx context.Context, input *protos.DeleteRegisteredModelAlias,
+) (*protos.DeleteRegisteredModelAlias_Response, *contract.Error) {
+	alias := input.GetAlias()
+	if !RegisteredModelAliasRegex.MatchString(alias) {
+		return nil, contract.NewError(
+			protos.ErrorCode_INVALID_PARAMETER_VALUE,
+			fmt.Sprintf(
+				"Invalid alias name: %s. Names may only contain alphanumerics, underscores (_), and dashes (-).",
+				alias,
+			),
+		)
+	}
+
+	if alias == "latest" {
+		return nil, contract.NewError(
+			protos.ErrorCode_INVALID_PARAMETER_VALUE,
+			"'latest' alias name (case insensitive) is reserved.",
+		)
+	}
+
+	if RegisteredModelAliasVersionRegex.MatchString(alias) {
+		return nil, contract.NewError(
+			protos.ErrorCode_INVALID_PARAMETER_VALUE,
+			fmt.Sprintf("Version alias name '%s' is reserved.", alias),
+		)
+	}
+
+	if err := m.store.DeleteRegisteredModelAlias(
+		ctx,
+		input.GetName(),
+		alias,
+	); err != nil {
+		return nil, err
+	}
+
+	return &protos.DeleteRegisteredModelAlias_Response{}, nil
+}

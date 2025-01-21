@@ -341,3 +341,24 @@ func (m *ModelRegistrySQLStore) DeleteRegisteredModelTag(ctx context.Context, na
 
 	return nil
 }
+
+func (m *ModelRegistrySQLStore) DeleteRegisteredModelAlias(ctx context.Context, name, alias string) *contract.Error {
+	registeredModel, err := m.GetRegisteredModel(ctx, name)
+	if err != nil {
+		return err
+	}
+
+	if err := m.db.WithContext(ctx).Where(
+		"name = ?", registeredModel.Name,
+	).Where(
+		"alias = ?", alias,
+	).Delete(
+		&models.RegisteredModelAlias{},
+	).Error; err != nil {
+		return contract.NewErrorWith(
+			protos.ErrorCode_INTERNAL_ERROR, "error deleting registered model alias", err,
+		)
+	}
+
+	return nil
+}
