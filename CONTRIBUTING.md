@@ -43,7 +43,7 @@ To contribute to this project, you need the following:
 - [Mage](https://magefile.org/) (via `go install github.com/magefile/mage@v1.15.0`)
 - [protoc-gen-go](https://pkg.go.dev/github.com/golang/protobuf/protoc-gen-go) (via `go install google.golang.org/protobuf/cmd/protoc-gen-go@v1.33.0`)
 - [Mockery](https://vektra.github.io/mockery/latest/) (via `go install github.com/vektra/mockery/v2@v2.43.2`)
-- [Golangci-lint](https://golangci-lint.run/) (via `go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.59.1`)
+- [Golangci-lint](https://golangci-lint.run/) (via `go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.61.0`)
 
 ### Protocol Buffer Compiler
 

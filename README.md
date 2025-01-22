@@ -25,6 +25,9 @@ You can update your existing you used `mlflow` command with `mlflow-go`:
 
 Every existing setting of [mlflow server](https://mlflow.org/docs/latest/cli.html#mlflow-server) can be passed to `mlflow-go`.
 
+> [!CAUTION]
+> The Go implementation currently does not support file storage as a backend store. You must provide the --backend-store-uri argument pointing to a database.
+
 ### Python Usage
 
 ```py
