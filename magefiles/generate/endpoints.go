@@ -68,7 +68,7 @@ var ServiceInfoMap = map[string]ServiceGenerationInfo{
 			// "deleteModelVersionTag",
 			"setRegisteredModelAlias",
 			"deleteRegisteredModelAlias",
-			// "getModelVersionByAlias",
+			"getModelVersionByAlias",
 		},
 	},
 	"MlflowArtifactsService": {

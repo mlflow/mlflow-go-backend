@@ -101,3 +101,16 @@ func (m *ModelRegistryService) TransitionModelVersionStage(
 		ModelVersion: modelVersion.ToProto(),
 	}, nil
 }
+
+func (m *ModelRegistryService) GetModelVersionByAlias(
+	ctx context.Context, input *protos.GetModelVersionByAlias,
+) (*protos.GetModelVersionByAlias_Response, *contract.Error) {
+	modelVersion, err := m.store.GetModelVersionByAlias(ctx, input.GetName(), input.GetAlias())
+	if err != nil {
+		return nil, err
+	}
+
+	return &protos.GetModelVersionByAlias_Response{
+		ModelVersion: modelVersion.ToProto(),
+	}, nil
+}

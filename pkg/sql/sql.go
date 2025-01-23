@@ -95,7 +95,7 @@ func NewDatabase(ctx context.Context, storeURL string) (*gorm.DB, error) {
 
 	database, err := gorm.Open(dialector, &gorm.Config{
 		TranslateError: true,
-		Logger:         NewLoggerAdaptor(logger, LoggerAdaptorConfig{}),
+		Logger:         NewLoggerAdaptor(logger, LoggerAdaptorConfig{IgnoreRecordNotFoundError: true}),
 	})
 	if err != nil {
 		return nil, fmt.Errorf("failed to connect to database %q: %w", uri.String(), err)

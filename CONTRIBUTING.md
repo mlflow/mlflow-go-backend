@@ -24,6 +24,7 @@
   - [Run tests](#run-tests)
     - [Debug Failing Tests](#debug-failing-tests)
     - [Targeting Local Postgres in Python Tests](#targeting-local-postgres-in-python-tests)
+  - [Release Process](#release-process)
 
 
 
@@ -354,3 +355,12 @@ def test_search_runs_datasets():
 ```
 
 in the test file located in `.mlflow.repo`.
+
+## Release Process
+
+Currently, the release process is not fully automated. The maintainers need to follow these steps:
+
+- Ensure the [CHANGELOG.md](./CHANGELOG.md) file is up to date and contains a new `## [version]` heading for the version you wish to publish.
+- Build a wheel locally and perform a sanity check to verify that your new version has been picked up.
+- Create a release (via the GitHub website) and tag it with the version you just created. You can copy your release notes from the changelog.
+- Once a tag is created, the [GitHub release workflow](./.github/workflows/release.yml) will automatically publish to PyPI.

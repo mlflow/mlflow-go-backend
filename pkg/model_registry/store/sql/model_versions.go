@@ -5,6 +5,7 @@ import (
 	"database/sql"
 	"errors"
 	"fmt"
+	"strconv"
 	"strings"
 	"time"
 
@@ -79,8 +80,6 @@ func (m *ModelRegistrySQLStore) GetLatestVersions(
 func (m *ModelRegistrySQLStore) GetModelVersion(
 	ctx context.Context, name, version string, eager bool,
 ) (*entities.ModelVersion, *contract.Error) {
-	var modelVersion models.ModelVersion
-
 	query := m.db.WithContext(
 		ctx,
 	).Where(
@@ -96,6 +95,7 @@ func (m *ModelRegistrySQLStore) GetModelVersion(
 		query = query.Preload("Tags")
 	}
 
+	var modelVersion models.ModelVersion
 	if err := query.First(
 		&modelVersion,
 	).Error; err != nil {
@@ -291,6 +291,44 @@ Valid stages are %s`,
 		return nil, contract.NewErrorWith(
 			protos.ErrorCode_INTERNAL_ERROR, "error transitioning model version stage", err,
 		)
+	}
+
+	return modelVersion, nil
+}
+
+func (m *ModelRegistrySQLStore) GetModelVersionByAlias(
+	ctx context.Context, name, alias string,
+) (*entities.ModelVersion, *contract.Error) {
+	var registeredModelAlias models.RegisteredModelAlias
+	if err := m.db.WithContext(
+		ctx,
+	).Where(
+		"name = ?", name,
+	).Where(
+		"alias = ?", alias,
+	).First(
+		&registeredModelAlias,
+	).Error; err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return nil, contract.NewError(
+				protos.ErrorCode_INVALID_PARAMETER_VALUE,
+				fmt.Sprintf("Registered model alias %s not found.", alias),
+			)
+		}
+
+		return nil, contract.NewErrorWith(
+			protos.ErrorCode_INTERNAL_ERROR, "error getting registered model alias", err,
+		)
+	}
+
+	modelVersion, err := m.GetModelVersion(
+		ctx,
+		name,
+		strconv.Itoa(int(registeredModelAlias.Version)),
+		false,
+	)
+	if err != nil {
+		return nil, err
 	}
 
 	return modelVersion, nil
