@@ -24,4 +24,5 @@ type ModelRegistryService interface {
 	DeleteRegisteredModelTag(ctx context.Context, input *protos.DeleteRegisteredModelTag) (*protos.DeleteRegisteredModelTag_Response, *contract.Error)
 	SetRegisteredModelAlias(ctx context.Context, input *protos.SetRegisteredModelAlias) (*protos.SetRegisteredModelAlias_Response, *contract.Error)
 	DeleteRegisteredModelAlias(ctx context.Context, input *protos.DeleteRegisteredModelAlias) (*protos.DeleteRegisteredModelAlias_Response, *contract.Error)
+	GetModelVersionByAlias(ctx context.Context, input *protos.GetModelVersionByAlias) (*protos.GetModelVersionByAlias_Response, *contract.Error)
 }
