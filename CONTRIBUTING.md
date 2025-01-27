@@ -24,6 +24,7 @@
   - [Run tests](#run-tests)
     - [Debug Failing Tests](#debug-failing-tests)
     - [Targeting Local Postgres in Python Tests](#targeting-local-postgres-in-python-tests)
+  - [Release Process](#release-process)
 
 
 
@@ -43,7 +44,7 @@ To contribute to this project, you need the following:
 - [Mage](https://magefile.org/) (via `go install github.com/magefile/mage@v1.15.0`)
 - [protoc-gen-go](https://pkg.go.dev/github.com/golang/protobuf/protoc-gen-go) (via `go install google.golang.org/protobuf/cmd/protoc-gen-go@v1.33.0`)
 - [Mockery](https://vektra.github.io/mockery/latest/) (via `go install github.com/vektra/mockery/v2@v2.43.2`)
-- [Golangci-lint](https://golangci-lint.run/) (via `go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.59.1`)
+- [Golangci-lint](https://golangci-lint.run/) (via `go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.61.0`)
 
 ### Protocol Buffer Compiler
 
@@ -354,3 +355,12 @@ def test_search_runs_datasets():
 ```
 
 in the test file located in `.mlflow.repo`.
+
+## Release Process
+
+Currently, the release process is not fully automated. The maintainers need to follow these steps:
+
+- Ensure the [CHANGELOG.md](./CHANGELOG.md) file is up to date and contains a new `## [version]` heading for the version you wish to publish.
+- Build a wheel locally and perform a sanity check to verify that your new version has been picked up.
+- Create a release (via the GitHub website) and tag it with the version you just created. You can copy your release notes from the changelog.
+- Once a tag is created, the [GitHub release workflow](./.github/workflows/release.yml) will automatically publish to PyPI.

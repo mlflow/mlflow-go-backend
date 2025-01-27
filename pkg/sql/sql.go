@@ -21,6 +21,9 @@ var (
 	errSqliteMemory             = errors.New("go implementation does not support :memory: for sqlite")
 	errSqliteQueryParamsWindows = errors.New("query parameters are not supported on Windows")
 	errInUseConnections         = errors.New("there are still in use connections")
+	errNoSchemeDetected         = errors.New("no database schema was found," +
+		" we suspect you might be trying to use the file store which is not yet implemented." +
+		" Please pass a '--backend-store-uri' argument pointing to a database")
 )
 
 //nolint:ireturn
@@ -55,6 +58,10 @@ func getDialector(uri *url.URL) (gorm.Dialector, error) {
 
 		return sqlite.Open(dsn), nil
 	default:
+		if uri.Scheme == "" {
+			return nil, errNoSchemeDetected
+		}
+
 		return nil, fmt.Errorf("unsupported store URL scheme %q", uri.Scheme) //nolint:err113
 	}
 }
@@ -88,7 +95,7 @@ func NewDatabase(ctx context.Context, storeURL string) (*gorm.DB, error) {
 
 	database, err := gorm.Open(dialector, &gorm.Config{
 		TranslateError: true,
-		Logger:         NewLoggerAdaptor(logger, LoggerAdaptorConfig{}),
+		Logger:         NewLoggerAdaptor(logger, LoggerAdaptorConfig{IgnoreRecordNotFoundError: true}),
 	})
 	if err != nil {
 		return nil, fmt.Errorf("failed to connect to database %q: %w", uri.String(), err)

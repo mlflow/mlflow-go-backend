@@ -1798,9 +1798,9 @@ type GetModelVersionByAlias struct {
 	unknownFields protoimpl.UnknownFields
 
 	// Name of the registered model.
-	Name *string `protobuf:"bytes,1,opt,name=name" json:"name,omitempty" query:"name" params:"name"`
+	Name *string `protobuf:"bytes,1,opt,name=name" json:"name,omitempty" query:"name" params:"name" validate:"required"`
 	// Name of the alias. Maximum size is 256 bytes.
-	Alias *string `protobuf:"bytes,2,opt,name=alias" json:"alias,omitempty" query:"alias" params:"alias"`
+	Alias *string `protobuf:"bytes,2,opt,name=alias" json:"alias,omitempty" query:"alias" params:"alias" validate:"required,max=255,validMetricParamOrTagName,pathIsUnique"`
 }
 
 func (x *GetModelVersionByAlias) Reset() {

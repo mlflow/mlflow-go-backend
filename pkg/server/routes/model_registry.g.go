@@ -187,4 +187,15 @@ func RegisterModelRegistryServiceRoutes(service service.ModelRegistryService, pa
 		}
 		return ctx.JSON(output)
 	})
+	app.Get("/mlflow/registered-models/alias", func(ctx *fiber.Ctx) error {
+		input := &protos.GetModelVersionByAlias{}
+		if err := parser.ParseQuery(ctx, input); err != nil {
+			return err
+		}
+		output, err := service.GetModelVersionByAlias(utils.NewContextWithLoggerFromFiberContext(ctx), input)
+		if err != nil {
+			return err
+		}
+		return ctx.JSON(output)
+	})
 }
