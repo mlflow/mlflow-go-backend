@@ -95,6 +95,14 @@ func ModelRegistryServiceSetRegisteredModelTag(serviceID int64, requestData unsa
 	}
 	return invokeServiceMethod(service.SetRegisteredModelTag, new(protos.SetRegisteredModelTag), requestData, requestSize, responseSize)
 }
+//export ModelRegistryServiceSetModelVersionTag
+func ModelRegistryServiceSetModelVersionTag(serviceID int64, requestData unsafe.Pointer, requestSize C.int, responseSize *C.int) unsafe.Pointer {
+	service, err := modelRegistryServices.Get(serviceID)
+	if err != nil {
+		return makePointerFromError(err, responseSize)
+	}
+	return invokeServiceMethod(service.SetModelVersionTag, new(protos.SetModelVersionTag), requestData, requestSize, responseSize)
+}
 //export ModelRegistryServiceDeleteRegisteredModelTag
 func ModelRegistryServiceDeleteRegisteredModelTag(serviceID int64, requestData unsafe.Pointer, requestSize C.int, responseSize *C.int) unsafe.Pointer {
 	service, err := modelRegistryServices.Get(serviceID)

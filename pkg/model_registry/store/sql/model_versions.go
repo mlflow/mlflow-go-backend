@@ -10,6 +10,7 @@ import (
 	"time"
 
 	"gorm.io/gorm"
+	"gorm.io/gorm/clause"
 
 	"github.com/mlflow/mlflow-go-backend/pkg/contract"
 	"github.com/mlflow/mlflow-go-backend/pkg/entities"
@@ -332,4 +333,30 @@ func (m *ModelRegistrySQLStore) GetModelVersionByAlias(
 	}
 
 	return modelVersion, nil
+}
+
+func (m *ModelRegistrySQLStore) SetModelVersionTag(
+	ctx context.Context, name, version, key, value string,
+) *contract.Error {
+	modelVersion, err := m.GetModelVersion(ctx, name, version, false)
+	if err != nil {
+		return err
+	}
+
+	if err := m.db.WithContext(
+		ctx,
+	).Clauses(clause.OnConflict{
+		UpdateAll: true,
+	}).Create(&models.ModelVersionTag{
+		Key:     key,
+		Value:   value,
+		Name:    modelVersion.Name,
+		Version: modelVersion.Version,
+	}).Error; err != nil {
+		return contract.NewErrorWith(
+			protos.ErrorCode_INTERNAL_ERROR, "error setting model version tag", err,
+		)
+	}
+
+	return nil
 }

@@ -302,7 +302,7 @@ func NewErrorFromValidationError(err error) *contract.Error {
 			case "required":
 				validationErrors = append(
 					validationErrors,
-					fmt.Sprintf("Missing value for required parameter '%s'", field),
+					fmt.Sprintf("Missing value for required parameter '%s'.", field),
 				)
 			case "truncate":
 				validationErrors = append(validationErrors, mkTruncateValidationError(field, value, err))

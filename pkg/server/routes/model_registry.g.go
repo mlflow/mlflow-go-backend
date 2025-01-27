@@ -143,6 +143,17 @@ func RegisterModelRegistryServiceRoutes(service service.ModelRegistryService, pa
 		}
 		return ctx.JSON(output)
 	})
+	app.Post("/mlflow/model-versions/set-tag", func(ctx *fiber.Ctx) error {
+		input := &protos.SetModelVersionTag{}
+		if err := parser.ParseBody(ctx, input); err != nil {
+			return err
+		}
+		output, err := service.SetModelVersionTag(utils.NewContextWithLoggerFromFiberContext(ctx), input)
+		if err != nil {
+			return err
+		}
+		return ctx.JSON(output)
+	})
 	app.Delete("/mlflow/registered-models/delete-tag", func(ctx *fiber.Ctx) error {
 		input := &protos.DeleteRegisteredModelTag{}
 		if err := parser.ParseBody(ctx, input); err != nil {

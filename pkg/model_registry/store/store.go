@@ -18,6 +18,7 @@ type ModelRegistryStore interface {
 type ModelVersionStore interface {
 	GetLatestVersions(ctx context.Context, name string, stages []string) ([]*protos.ModelVersion, *contract.Error)
 	GetModelVersion(ctx context.Context, name, version string, eager bool) (*entities.ModelVersion, *contract.Error)
+	SetModelVersionTag(ctx context.Context, name, version, key, value string) *contract.Error
 	DeleteModelVersion(ctx context.Context, name, version string) *contract.Error
 	UpdateModelVersion(ctx context.Context, name, version, description string) (*entities.ModelVersion, *contract.Error)
 	TransitionModelVersionStage(
