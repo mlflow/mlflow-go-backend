@@ -365,7 +365,7 @@ type CreateRegisteredModel struct {
 	unknownFields protoimpl.UnknownFields
 
 	// Register models under this name
-	Name *string `protobuf:"bytes,1,opt,name=name" json:"name,omitempty" query:"name" params:"name" validate:"required,notEmpty"`
+	Name *string `protobuf:"bytes,1,opt,name=name" json:"name,omitempty" query:"name" params:"name" validate:"notEmpty,required"`
 	// Additional metadata for registered model.
 	Tags []*RegisteredModelTag `protobuf:"bytes,2,rep,name=tags" json:"tags,omitempty" query:"tags" params:"tags"`
 	// Optional description for registered model.
@@ -429,9 +429,9 @@ type RenameRegisteredModel struct {
 	unknownFields protoimpl.UnknownFields
 
 	// Registered model unique name identifier.
-	Name *string `protobuf:"bytes,1,opt,name=name" json:"name,omitempty" query:"name" params:"name" validate:"required,notEmpty"`
+	Name *string `protobuf:"bytes,1,opt,name=name" json:"name,omitempty" query:"name" params:"name" validate:"notEmpty,required"`
 	// If provided, updates the name for this “registered_model“.
-	NewName *string `protobuf:"bytes,2,opt,name=new_name,json=newName" json:"new_name,omitempty" query:"new_name" params:"new_name"`
+	NewName *string `protobuf:"bytes,2,opt,name=new_name,json=newName" json:"new_name,omitempty" query:"new_name" params:"new_name" validate:"notEmpty,required"`
 }
 
 func (x *RenameRegisteredModel) Reset() {
