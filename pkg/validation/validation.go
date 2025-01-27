@@ -308,12 +308,7 @@ func NewErrorFromValidationError(err error) *contract.Error {
 			value := dereference(err.Value())
 
 			switch tag {
-			case "notEmpty":
-				validationErrors = append(
-					validationErrors,
-					fmt.Sprintf("Missing value for required parameter '%s'.", field),
-				)
-			case "required":
+			case "notEmpty", "required":
 				validationErrors = append(
 					validationErrors,
 					fmt.Sprintf("Missing value for required parameter '%s'.", field),
