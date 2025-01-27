@@ -114,3 +114,28 @@ func (m *ModelRegistryService) GetModelVersionByAlias(
 		ModelVersion: modelVersion.ToProto(),
 	}, nil
 }
+
+func (m *ModelRegistryService) SetModelVersionTag(
+	ctx context.Context, input *protos.SetModelVersionTag,
+) (*protos.SetModelVersionTag_Response, *contract.Error) {
+	// by some strange reason GetModelVersion.Version has a string type so we can't apply our validation,
+	// that's why such a custom validation exists to satisfy Python tests.
+	version := input.GetVersion()
+	if _, err := strconv.Atoi(version); err != nil {
+		return nil, contract.NewErrorWith(
+			protos.ErrorCode_INVALID_PARAMETER_VALUE, "Model version must be an integer", err,
+		)
+	}
+
+	if err := m.store.SetModelVersionTag(
+		ctx,
+		input.GetName(),
+		version,
+		input.GetKey(),
+		input.GetValue(),
+	); err != nil {
+		return nil, err
+	}
+
+	return &protos.SetModelVersionTag_Response{}, nil
+}
