@@ -296,7 +296,6 @@ Valid stages are %s`,
 	return modelVersion, nil
 }
 
-
 func (m *ModelRegistrySQLStore) DeleteModelVersionTag(
 	ctx context.Context, name, version, key string,
 ) *contract.Error {

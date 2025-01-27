@@ -120,7 +120,7 @@ func (m *ModelRegistryService) DeleteModelVersionTag(
 
 	return &protos.DeleteModelVersionTag_Response{}, nil
 }
-  
+
 func (m *ModelRegistryService) GetModelVersionByAlias(
 	ctx context.Context, input *protos.GetModelVersionByAlias,
 ) (*protos.GetModelVersionByAlias_Response, *contract.Error) {
