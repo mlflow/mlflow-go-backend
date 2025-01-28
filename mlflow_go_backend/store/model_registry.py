@@ -163,6 +163,7 @@ class _ModelRegistryStore:
         )
         return ModelVersion.from_proto(response.model_version)
 
+
 def ModelRegistryStore(cls):
     return type(cls.__name__, (_ModelRegistryStore, cls), {})
 
