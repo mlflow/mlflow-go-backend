@@ -906,7 +906,7 @@ wheels = [
 
 [[package]]
 name = "mlflow"
-version = "2.19.1.dev0"
+version = "2.20.1.dev0"
 source = { editable = ".mlflow.repo" }
 dependencies = [
     { name = "alembic" },
@@ -937,6 +937,7 @@ dependencies = [
     { name = "scipy" },
     { name = "sqlalchemy" },
     { name = "sqlparse" },
+    { name = "typing-extensions" },
     { name = "waitress", marker = "sys_platform == 'win32'" },
 ]
 
@@ -971,7 +972,7 @@ requires-dist = [
     { name = "jinja2", marker = "sys_platform != 'win32'", specifier = ">=2.11,<4" },
     { name = "jinja2", marker = "sys_platform == 'win32'", specifier = ">=3.0,<4" },
     { name = "kubernetes", marker = "extra == 'extras'" },
-    { name = "langchain", marker = "extra == 'langchain'", specifier = ">=0.1.0,<=0.3.9" },
+    { name = "langchain", marker = "extra == 'langchain'", specifier = ">=0.1.0,<=0.3.14" },
     { name = "markdown", specifier = ">=3.3,<4" },
     { name = "matplotlib", specifier = "<4" },
     { name = "mlflow-dbstore", marker = "extra == 'sqlserver'" },
@@ -1001,6 +1002,7 @@ requires-dist = [
     { name = "sqlparse", specifier = ">=0.4.0,<1" },
     { name = "tiktoken", marker = "extra == 'gateway'", specifier = "<1" },
     { name = "tiktoken", marker = "extra == 'genai'", specifier = "<1" },
+    { name = "typing-extensions", specifier = ">=4.0.0,<5" },
     { name = "uvicorn", extras = ["standard"], marker = "extra == 'gateway'", specifier = "<1" },
     { name = "uvicorn", extras = ["standard"], marker = "extra == 'genai'", specifier = "<1" },
     { name = "virtualenv", marker = "extra == 'extras'" },
@@ -1011,7 +1013,7 @@ requires-dist = [
 
 [[package]]
 name = "mlflow-go-backend"
-version = "0.1.0"
+version = "0.2.0"
 source = { editable = "." }
 dependencies = [
     { name = "cffi" },
