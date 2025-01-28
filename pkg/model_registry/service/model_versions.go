@@ -130,7 +130,7 @@ func (m *ModelRegistryService) SetModelVersionTag(
 	if err := m.store.SetModelVersionTag(
 		ctx,
 		input.GetName(),
-		version,
+		input.GetVersion(),
 		input.GetKey(),
 		input.GetValue(),
 	); err != nil {

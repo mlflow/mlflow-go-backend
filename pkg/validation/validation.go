@@ -146,6 +146,7 @@ func truncateFn(fieldLevel validator.FieldLevel) bool {
 	return true
 }
 
+//nolint
 func NewValidator() (*validator.Validate, error) {
 	validate := validator.New()
 
@@ -199,6 +200,10 @@ func NewValidator() (*validator.Validate, error) {
 		return nil, fmt.Errorf("validation registration for 'positiveNonZeroInteger' failed: %w", err)
 	}
 
+	if err := validate.RegisterValidation("stringAsInteger", stringAsInteger); err != nil {
+		return nil, fmt.Errorf("validation registration for 'stringAsInteger' failed: %w", err)
+	}
+
 	validate.RegisterStructValidation(validateLogBatchLimits, &protos.LogBatch{})
 	validate.RegisterStructValidation(validateSetTagRunIDExists, &protos.SetTag{})
 
@@ -207,6 +212,14 @@ func NewValidator() (*validator.Validate, error) {
 
 func positiveNonZeroInteger(fl validator.FieldLevel) bool {
 	return fl.Field().Int() > 0
+}
+
+func stringAsInteger(fl validator.FieldLevel) bool {
+	if _, err := strconv.Atoi(fl.Field().String()); err != nil {
+		return false
+	}
+
+	return true
 }
 
 func dereference(value interface{}) interface{} {
@@ -315,6 +328,11 @@ func NewErrorFromValidationError(err error) *contract.Error {
 				validationErrors = append(validationErrors, mkMaxValidationError(field, value, err))
 			case "positiveNonZeroInteger":
 				validationErrors = append(validationErrors, mkPositiveNonZeroIntegerError(field, value))
+			case "stringAsInteger":
+				validationErrors = append(
+					validationErrors,
+					fmt.Sprintf("Parameter '%s' must be an integer, got '%s'", field, value),
+				)
 			default:
 				validationErrors = append(
 					validationErrors,

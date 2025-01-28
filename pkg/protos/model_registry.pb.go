@@ -1429,7 +1429,7 @@ type SetModelVersionTag struct {
 	// Unique name of the model.
 	Name *string `protobuf:"bytes,1,opt,name=name" json:"name,omitempty" query:"name" params:"name" validate:"required"`
 	// Model version number.
-	Version *string `protobuf:"bytes,2,opt,name=version" json:"version,omitempty" query:"version" params:"version"`
+	Version *string `protobuf:"bytes,2,opt,name=version" json:"version,omitempty" query:"version" params:"version" validate:"stringAsInteger"`
 	// Name of the tag. Maximum size depends on storage backend.
 	// If a tag with this name already exists, its preexisting value will be replaced by the specified `value`.
 	// All storage backends are guaranteed to support key values up to 250 bytes in size.
