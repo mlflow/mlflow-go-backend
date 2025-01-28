@@ -31,15 +31,7 @@ func (m *ModelRegistryService) UpdateRegisteredModel(
 func (m *ModelRegistryService) RenameRegisteredModel(
 	ctx context.Context, input *protos.RenameRegisteredModel,
 ) (*protos.RenameRegisteredModel_Response, *contract.Error) {
-	newName := input.GetNewName()
-	if newName == "" {
-		return nil, contract.NewError(
-			protos.ErrorCode_INVALID_PARAMETER_VALUE,
-			"Registered model name cannot be empty",
-		)
-	}
-
-	registeredModel, err := m.store.RenameRegisteredModel(ctx, input.GetName(), newName)
+	registeredModel, err := m.store.RenameRegisteredModel(ctx, input.GetName(), input.GetNewName())
 	if err != nil {
 		return nil, err
 	}
@@ -75,15 +67,7 @@ func (m *ModelRegistryService) GetRegisteredModel(
 func (m *ModelRegistryService) SetRegisteredModelTag(
 	ctx context.Context, input *protos.SetRegisteredModelTag,
 ) (*protos.SetRegisteredModelTag_Response, *contract.Error) {
-	name := input.GetName()
-	if name == "" {
-		return nil, contract.NewError(
-			protos.ErrorCode_INVALID_PARAMETER_VALUE,
-			"Registered model name cannot be empty",
-		)
-	}
-
-	if err := m.store.SetRegisteredModelTag(ctx, name, input.GetKey(), input.GetValue()); err != nil {
+	if err := m.store.SetRegisteredModelTag(ctx, input.GetName(), input.GetKey(), input.GetValue()); err != nil {
 		return nil, err
 	}
 
@@ -93,14 +77,6 @@ func (m *ModelRegistryService) SetRegisteredModelTag(
 func (m *ModelRegistryService) CreateRegisteredModel(
 	ctx context.Context, input *protos.CreateRegisteredModel,
 ) (*protos.CreateRegisteredModel_Response, *contract.Error) {
-	name := input.GetName()
-	if name == "" {
-		return nil, contract.NewError(
-			protos.ErrorCode_INVALID_PARAMETER_VALUE,
-			"Registered model name cannot be empty.",
-		)
-	}
-
 	tags := make([]*entities.RegisteredModelTag, 0, len(input.GetTags()))
 	for _, tag := range input.GetTags() {
 		tags = append(tags, entities.NewRegisteredModelTagFromProto(tag))
@@ -119,15 +95,7 @@ func (m *ModelRegistryService) CreateRegisteredModel(
 func (m *ModelRegistryService) DeleteRegisteredModelTag(
 	ctx context.Context, input *protos.DeleteRegisteredModelTag,
 ) (*protos.DeleteRegisteredModelTag_Response, *contract.Error) {
-	name := input.GetName()
-	if name == "" {
-		return nil, contract.NewError(
-			protos.ErrorCode_INVALID_PARAMETER_VALUE,
-			"Registered model name cannot be empty",
-		)
-	}
-
-	if err := m.store.DeleteRegisteredModelTag(ctx, name, input.GetKey()); err != nil {
+	if err := m.store.DeleteRegisteredModelTag(ctx, input.GetName(), input.GetKey()); err != nil {
 		return nil, err
 	}
 
