@@ -114,3 +114,19 @@ func (m *ModelRegistryService) GetModelVersionByAlias(
 		ModelVersion: modelVersion.ToProto(),
 	}, nil
 }
+
+func (m *ModelRegistryService) SetModelVersionTag(
+	ctx context.Context, input *protos.SetModelVersionTag,
+) (*protos.SetModelVersionTag_Response, *contract.Error) {
+	if err := m.store.SetModelVersionTag(
+		ctx,
+		input.GetName(),
+		input.GetVersion(),
+		input.GetKey(),
+		input.GetValue(),
+	); err != nil {
+		return nil, err
+	}
+
+	return &protos.SetModelVersionTag_Response{}, nil
+}

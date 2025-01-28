@@ -24,6 +24,7 @@ type ModelVersionStore interface {
 		ctx context.Context, name, version string, stage models.ModelVersionStage, archiveExistingVersions bool,
 	) (*entities.ModelVersion, *contract.Error)
 	GetModelVersionByAlias(ctx context.Context, name, alias string) (*entities.ModelVersion, *contract.Error)
+	SetModelVersionTag(ctx context.Context, name, version, key, value string) *contract.Error
 }
 
 type RegisteredModelStore interface {
