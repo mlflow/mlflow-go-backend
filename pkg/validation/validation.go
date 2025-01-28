@@ -146,7 +146,7 @@ func truncateFn(fieldLevel validator.FieldLevel) bool {
 	return true
 }
 
-//nolint
+//nolint:cyclop
 func NewValidator() (*validator.Validate, error) {
 	validate := validator.New()
 
