@@ -87,6 +87,10 @@ func pathIsClean(fl validator.FieldLevel) bool {
 	return !(norm != valueStr || norm == "." || strings.HasPrefix(norm, "..") || strings.HasPrefix(norm, "/"))
 }
 
+func notEmptyValidation(fl validator.FieldLevel) bool {
+	return fl.Field().String() != ""
+}
+
 func regexValidation(regex *regexp.Regexp) validator.Func {
 	return func(fl validator.FieldLevel) bool {
 		valueStr := fl.Field().String()
@@ -146,7 +150,7 @@ func truncateFn(fieldLevel validator.FieldLevel) bool {
 	return true
 }
 
-//nolint:cyclop
+//nolint:funlen,cyclop
 func NewValidator() (*validator.Validate, error) {
 	validate := validator.New()
 
@@ -200,8 +204,12 @@ func NewValidator() (*validator.Validate, error) {
 		return nil, fmt.Errorf("validation registration for 'positiveNonZeroInteger' failed: %w", err)
 	}
 
-	if err := validate.RegisterValidation("stringAsInteger", stringAsInteger); err != nil {
-		return nil, fmt.Errorf("validation registration for 'stringAsInteger' failed: %w", err)
+	if err := validate.RegisterValidation("notEmpty", notEmptyValidation); err != nil {
+		return nil, fmt.Errorf("validation registration for 'notEmpty' failed: %w", err)
+	}
+
+	if err := validate.RegisterValidation("notEmpty", stringAsInteger); err != nil {
+		return nil, fmt.Errorf("validation registration for 'notEmpty' failed: %w", err)
 	}
 
 	validate.RegisterStructValidation(validateLogBatchLimits, &protos.LogBatch{})
@@ -312,7 +320,7 @@ func NewErrorFromValidationError(err error) *contract.Error {
 			value := dereference(err.Value())
 
 			switch tag {
-			case "required":
+			case "notEmpty", "required":
 				validationErrors = append(
 					validationErrors,
 					fmt.Sprintf("Missing value for required parameter '%s'.", field),
