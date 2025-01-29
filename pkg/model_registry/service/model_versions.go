@@ -102,6 +102,18 @@ func (m *ModelRegistryService) TransitionModelVersionStage(
 	}, nil
 }
 
+func (m *ModelRegistryService) DeleteModelVersionTag(
+	ctx context.Context, input *protos.DeleteModelVersionTag,
+) (*protos.DeleteModelVersionTag_Response, *contract.Error) {
+	if err := m.store.DeleteModelVersionTag(
+		ctx, input.GetName(), input.GetVersion(), input.GetKey(),
+	); err != nil {
+		return nil, err
+	}
+
+	return &protos.DeleteModelVersionTag_Response{}, nil
+}
+
 func (m *ModelRegistryService) GetModelVersionByAlias(
 	ctx context.Context, input *protos.GetModelVersionByAlias,
 ) (*protos.GetModelVersionByAlias_Response, *contract.Error) {

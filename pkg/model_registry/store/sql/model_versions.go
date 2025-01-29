@@ -297,6 +297,31 @@ Valid stages are %s`,
 	return modelVersion, nil
 }
 
+func (m *ModelRegistrySQLStore) DeleteModelVersionTag(
+	ctx context.Context, name, version, key string,
+) *contract.Error {
+	modelVersion, err := m.GetModelVersion(ctx, name, version, false)
+	if err != nil {
+		return err
+	}
+
+	if err := m.db.WithContext(ctx).Where(
+		"name = ?", modelVersion.Name,
+	).Where(
+		"key = ?", key,
+	).Where(
+		"version = ?", version,
+	).Delete(
+		&models.ModelVersionTag{},
+	).Error; err != nil {
+		return contract.NewErrorWith(
+			protos.ErrorCode_INTERNAL_ERROR, "error deleting model version tag", err,
+		)
+	}
+
+	return nil
+}
+
 func (m *ModelRegistrySQLStore) GetModelVersionByAlias(
 	ctx context.Context, name, alias string,
 ) (*entities.ModelVersion, *contract.Error) {
