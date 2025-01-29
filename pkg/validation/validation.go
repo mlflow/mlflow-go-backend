@@ -339,7 +339,7 @@ func NewErrorFromValidationError(err error) *contract.Error {
 			case "stringAsInteger":
 				validationErrors = append(
 					validationErrors,
-					fmt.Sprintf("Parameter '%s' must be an integer, got '%s'", field, value),
+					fmt.Sprintf("Parameter '%s' must be an integer, got '%s'.", field, value),
 				)
 			default:
 				validationErrors = append(

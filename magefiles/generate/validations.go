@@ -68,4 +68,5 @@ var validations = map[string]string{
 	"SetModelVersionTag_Key":             "required,max=250,validMetricParamOrTagName,pathIsUnique",
 	"SetModelVersionTag_Value":           "omitempty,max=5000,truncate=5000",
 	"SetModelVersionTag_Version":         "stringAsInteger",
+	"GetModelVersion_Version":            "stringAsInteger",
 }
