@@ -91,6 +91,14 @@ func notEmptyValidation(fl validator.FieldLevel) bool {
 	return fl.Field().String() != ""
 }
 
+func stringAsInteger(fl validator.FieldLevel) bool {
+	if _, err := strconv.Atoi(fl.Field().String()); err != nil {
+		return false
+	}
+
+	return true
+}
+
 func regexValidation(regex *regexp.Regexp) validator.Func {
 	return func(fl validator.FieldLevel) bool {
 		valueStr := fl.Field().String()
@@ -150,7 +158,7 @@ func truncateFn(fieldLevel validator.FieldLevel) bool {
 	return true
 }
 
-//nolint:cyclop
+//nolint:cyclop,funlen
 func NewValidator() (*validator.Validate, error) {
 	validate := validator.New()
 
@@ -205,6 +213,10 @@ func NewValidator() (*validator.Validate, error) {
 	}
 
 	if err := validate.RegisterValidation("notEmpty", notEmptyValidation); err != nil {
+		return nil, fmt.Errorf("validation registration for 'notEmpty' failed: %w", err)
+	}
+
+	if err := validate.RegisterValidation("stringAsInteger", stringAsInteger); err != nil {
 		return nil, fmt.Errorf("validation registration for 'notEmpty' failed: %w", err)
 	}
 
@@ -324,6 +336,11 @@ func NewErrorFromValidationError(err error) *contract.Error {
 				validationErrors = append(validationErrors, mkMaxValidationError(field, value, err))
 			case "positiveNonZeroInteger":
 				validationErrors = append(validationErrors, mkPositiveNonZeroIntegerError(field, value))
+			case "stringAsInteger":
+				validationErrors = append(
+					validationErrors,
+					fmt.Sprintf("Parameter '%s' must be an integer, got '%s'.", field, value),
+				)
 			default:
 				validationErrors = append(
 					validationErrors,
