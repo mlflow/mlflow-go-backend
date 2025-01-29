@@ -12,6 +12,7 @@ from mlflow.protos.model_registry_pb2 import (
     GetLatestVersions,
     GetModelVersion,
     GetModelVersionByAlias,
+    GetModelVersionDownloadUri,
     GetRegisteredModel,
     RenameRegisteredModel,
     SetModelVersionTag,
@@ -167,6 +168,13 @@ class _ModelRegistryStore:
     def set_model_version_tag(self, name, version, tag):
         request = SetModelVersionTag(name=name, version=str(version), key=tag.key, value=tag.value)
         self.service.call_endpoint(get_lib().ModelRegistryServiceSetModelVersionTag, request)
+
+    def get_model_version_download_uri(self, name, version):
+        request = GetModelVersionDownloadUri(name=name, version=str(version))
+        response = self.service.call_endpoint(
+            get_lib().ModelRegistryServiceGetModelVersionDownloadUri, request
+        )
+        return response.artifact_uri
 
 
 def ModelRegistryStore(cls):

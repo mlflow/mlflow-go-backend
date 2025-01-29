@@ -385,3 +385,18 @@ func (m *ModelRegistrySQLStore) SetModelVersionTag(
 
 	return nil
 }
+
+func (m *ModelRegistrySQLStore) GetModelVersionDownloadURI(
+	ctx context.Context, name, version string,
+) (string, *contract.Error) {
+	modelVersion, err := m.GetModelVersion(ctx, name, version, false)
+	if err != nil {
+		return "", err
+	}
+
+	if modelVersion.StorageLocation != "" {
+		return modelVersion.StorageLocation, nil
+	}
+
+	return modelVersion.Source, nil
+}

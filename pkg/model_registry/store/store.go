@@ -26,6 +26,7 @@ type ModelVersionStore interface {
 	DeleteModelVersionTag(ctx context.Context, name, version, key string) *contract.Error
 	GetModelVersionByAlias(ctx context.Context, name, alias string) (*entities.ModelVersion, *contract.Error)
 	SetModelVersionTag(ctx context.Context, name, version, key, value string) *contract.Error
+	GetModelVersionDownloadURI(ctx context.Context, name, version string) (string, *contract.Error)
 }
 
 type RegisteredModelStore interface {
