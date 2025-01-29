@@ -105,16 +105,9 @@ func (m *ModelRegistryService) TransitionModelVersionStage(
 func (m *ModelRegistryService) DeleteModelVersionTag(
 	ctx context.Context, input *protos.DeleteModelVersionTag,
 ) (*protos.DeleteModelVersionTag_Response, *contract.Error) {
-	// by some strange reason GetModelVersion.Version has a string type so we can't apply our validation,
-	// that's why such a custom validation exists to satisfy Python tests.
-	version := input.GetVersion()
-	if _, err := strconv.Atoi(version); err != nil {
-		return nil, contract.NewErrorWith(
-			protos.ErrorCode_INVALID_PARAMETER_VALUE, "Model version must be an integer", err,
-		)
-	}
-
-	if err := m.store.DeleteModelVersionTag(ctx, input.GetName(), version, input.GetKey()); err != nil {
+	if err := m.store.DeleteModelVersionTag(
+		ctx, input.GetName(), input.GetVersion(), input.GetKey(),
+	); err != nil {
 		return nil, err
 	}
 

@@ -1559,7 +1559,7 @@ type DeleteModelVersionTag struct {
 	// Name of the registered model that the tag was logged under.
 	Name *string `protobuf:"bytes,1,opt,name=name" json:"name,omitempty" query:"name" params:"name" validate:"required"`
 	// Model version number that the tag was logged under.
-	Version *string `protobuf:"bytes,2,opt,name=version" json:"version,omitempty" query:"version" params:"version"`
+	Version *string `protobuf:"bytes,2,opt,name=version" json:"version,omitempty" query:"version" params:"version" validate:"stringAsInteger"`
 	// Name of the tag. The name must be an exact match; wild-card deletion is not supported. Maximum size is 250 bytes.
 	Key *string `protobuf:"bytes,3,opt,name=key" json:"key,omitempty" query:"key" params:"key" validate:"required,max=250,validMetricParamOrTagName,pathIsUnique"`
 }
