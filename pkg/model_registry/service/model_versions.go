@@ -9,6 +9,7 @@ import (
 	"github.com/mlflow/mlflow-go-backend/pkg/contract"
 	"github.com/mlflow/mlflow-go-backend/pkg/model_registry/store/sql/models"
 	"github.com/mlflow/mlflow-go-backend/pkg/protos"
+	"github.com/mlflow/mlflow-go-backend/pkg/utils"
 )
 
 func (m *ModelRegistryService) GetLatestVersions(
@@ -141,4 +142,18 @@ func (m *ModelRegistryService) SetModelVersionTag(
 	}
 
 	return &protos.SetModelVersionTag_Response{}, nil
+}
+
+//nolint:revive,stylecheck
+func (m *ModelRegistryService) GetModelVersionDownloadUri(
+	ctx context.Context, input *protos.GetModelVersionDownloadUri,
+) (*protos.GetModelVersionDownloadUri_Response, *contract.Error) {
+	artifactURI, err := m.store.GetModelVersionDownloadURI(ctx, input.GetName(), input.GetVersion())
+	if err != nil {
+		return nil, err
+	}
+
+	return &protos.GetModelVersionDownloadUri_Response{
+		ArtifactUri: utils.PtrTo(artifactURI),
+	}, nil
 }

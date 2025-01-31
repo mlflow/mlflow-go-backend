@@ -72,4 +72,5 @@ var validations = map[string]string{
 	"SetModelVersionTag_Value":           "omitempty,max=5000,truncate=5000",
 	"SetModelVersionTag_Version":         "stringAsInteger",
 	"GetModelVersion_Version":            "stringAsInteger",
+	"GetModelVersionDownloadUri_Version": "stringAsInteger",
 }

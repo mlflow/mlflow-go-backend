@@ -87,6 +87,14 @@ func ModelRegistryServiceGetModelVersion(serviceID int64, requestData unsafe.Poi
 	}
 	return invokeServiceMethod(service.GetModelVersion, new(protos.GetModelVersion), requestData, requestSize, responseSize)
 }
+//export ModelRegistryServiceGetModelVersionDownloadUri
+func ModelRegistryServiceGetModelVersionDownloadUri(serviceID int64, requestData unsafe.Pointer, requestSize C.int, responseSize *C.int) unsafe.Pointer {
+	service, err := modelRegistryServices.Get(serviceID)
+	if err != nil {
+		return makePointerFromError(err, responseSize)
+	}
+	return invokeServiceMethod(service.GetModelVersionDownloadUri, new(protos.GetModelVersionDownloadUri), requestData, requestSize, responseSize)
+}
 //export ModelRegistryServiceSetRegisteredModelTag
 func ModelRegistryServiceSetRegisteredModelTag(serviceID int64, requestData unsafe.Pointer, requestSize C.int, responseSize *C.int) unsafe.Pointer {
 	service, err := modelRegistryServices.Get(serviceID)

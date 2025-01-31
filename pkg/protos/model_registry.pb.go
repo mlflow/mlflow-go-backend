@@ -1196,7 +1196,7 @@ type GetModelVersionDownloadUri struct {
 	// Name of the registered model
 	Name *string `protobuf:"bytes,1,opt,name=name" json:"name,omitempty" query:"name" params:"name"`
 	// Model version number
-	Version *string `protobuf:"bytes,2,opt,name=version" json:"version,omitempty" query:"version" params:"version"`
+	Version *string `protobuf:"bytes,2,opt,name=version" json:"version,omitempty" query:"version" params:"version" validate:"stringAsInteger"`
 }
 
 func (x *GetModelVersionDownloadUri) Reset() {
