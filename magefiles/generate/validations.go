@@ -67,6 +67,7 @@ var validations = map[string]string{
 	"DeleteModelVersionTag_Version":      "stringAsInteger",
 	"GetModelVersionByAlias_Name":        "required",
 	"GetModelVersionByAlias_Alias":       "required,max=255,validMetricParamOrTagName,pathIsUnique",
+	"GetModelVersionByAlias_Version":     "stringAsInteger",
 	"SetModelVersionTag_Name":            "required",
 	"SetModelVersionTag_Key":             "required,max=250,validMetricParamOrTagName,pathIsUnique",
 	"SetModelVersionTag_Value":           "omitempty,max=5000,truncate=5000",
