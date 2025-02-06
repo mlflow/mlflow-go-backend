@@ -3,10 +3,10 @@ package service
 import (
 	"context"
 	"fmt"
-	"strconv"
 	"strings"
 
 	"github.com/mlflow/mlflow-go-backend/pkg/contract"
+	"github.com/mlflow/mlflow-go-backend/pkg/entities"
 	"github.com/mlflow/mlflow-go-backend/pkg/model_registry/store/sql/models"
 	"github.com/mlflow/mlflow-go-backend/pkg/protos"
 	"github.com/mlflow/mlflow-go-backend/pkg/utils"
@@ -38,16 +38,7 @@ func (m *ModelRegistryService) DeleteModelVersion(
 func (m *ModelRegistryService) GetModelVersion(
 	ctx context.Context, input *protos.GetModelVersion,
 ) (*protos.GetModelVersion_Response, *contract.Error) {
-	// by some strange reason GetModelVersion.Version has a string type so we can't apply our validation,
-	// that's why such a custom validation exists to satisfy Python tests.
-	version := input.GetVersion()
-	if _, err := strconv.Atoi(version); err != nil {
-		return nil, contract.NewErrorWith(
-			protos.ErrorCode_INVALID_PARAMETER_VALUE, "Model version must be an integer", err,
-		)
-	}
-
-	modelVersion, err := m.store.GetModelVersion(ctx, input.GetName(), version, true)
+	modelVersion, err := m.store.GetModelVersion(ctx, input.GetName(), input.GetVersion(), true)
 	if err != nil {
 		return nil, err
 	}
@@ -155,5 +146,31 @@ func (m *ModelRegistryService) GetModelVersionDownloadUri(
 
 	return &protos.GetModelVersionDownloadUri_Response{
 		ArtifactUri: utils.PtrTo(artifactURI),
+	}, nil
+}
+
+func (m *ModelRegistryService) CreateModelVersion(
+	ctx context.Context, input *protos.CreateModelVersion,
+) (*protos.CreateModelVersion_Response, *contract.Error) {
+	tags := make([]*entities.ModelVersionTag, 0, len(input.GetTags()))
+	for _, tag := range input.GetTags() {
+		tags = append(tags, entities.NewModelVersionTag(tag))
+	}
+
+	modelVersion, err := m.store.CreateModelVersion(
+		ctx,
+		input.GetName(),
+		input.GetSource(),
+		input.GetRunId(),
+		tags,
+		input.GetRunLink(),
+		input.GetDescription(),
+	)
+	if err != nil {
+		return nil, err
+	}
+
+	return &protos.CreateModelVersion_Response{
+		ModelVersion: modelVersion.ToProto(),
 	}, nil
 }

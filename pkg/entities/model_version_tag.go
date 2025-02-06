@@ -16,3 +16,10 @@ func (mvt ModelVersionTag) ToProto() *protos.ModelVersionTag {
 		Value: utils.PtrTo(mvt.Value),
 	}
 }
+
+func NewModelVersionTag(proto *protos.ModelVersionTag) *ModelVersionTag {
+	return &ModelVersionTag{
+		Key:   proto.GetKey(),
+		Value: proto.GetValue(),
+	}
+}

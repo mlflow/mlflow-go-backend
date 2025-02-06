@@ -3,6 +3,7 @@ import logging
 
 from mlflow.entities.model_registry import ModelVersion, RegisteredModel
 from mlflow.protos.model_registry_pb2 import (
+    CreateModelVersion,
     CreateRegisteredModel,
     DeleteModelVersion,
     DeleteModelVersionTag,
@@ -175,6 +176,30 @@ class _ModelRegistryStore:
             get_lib().ModelRegistryServiceGetModelVersionDownloadUri, request
         )
         return response.artifact_uri
+
+    def create_model_version(
+        self,
+        name,
+        source,
+        run_id=None,
+        tags=None,
+        run_link=None,
+        description=None,
+        local_model_path=None,
+    ):
+        request = CreateModelVersion(
+            name=name,
+            source=source,
+            run_id=run_id,
+            tags=[tag.to_proto() for tag in tags] if tags else [],
+            run_link=run_link,
+            description=description,
+        )
+        response = self.service.call_endpoint(
+            get_lib().ModelRegistryServiceCreateModelVersion, request
+        )
+
+        return ModelVersion.from_proto(response.model_version)
 
 
 def ModelRegistryStore(cls):
