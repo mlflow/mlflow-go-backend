@@ -6,6 +6,7 @@ import (
 	"strings"
 
 	"github.com/mlflow/mlflow-go-backend/pkg/contract"
+	"github.com/mlflow/mlflow-go-backend/pkg/entities"
 	"github.com/mlflow/mlflow-go-backend/pkg/model_registry/store/sql/models"
 	"github.com/mlflow/mlflow-go-backend/pkg/protos"
 	"github.com/mlflow/mlflow-go-backend/pkg/utils"
@@ -145,5 +146,31 @@ func (m *ModelRegistryService) GetModelVersionDownloadUri(
 
 	return &protos.GetModelVersionDownloadUri_Response{
 		ArtifactUri: utils.PtrTo(artifactURI),
+	}, nil
+}
+
+func (m *ModelRegistryService) CreateModelVersion(
+	ctx context.Context, input *protos.CreateModelVersion,
+) (*protos.CreateModelVersion_Response, *contract.Error) {
+	tags := make([]*entities.ModelVersionTag, 0, len(input.GetTags()))
+	for _, tag := range input.GetTags() {
+		tags = append(tags, entities.NewModelVersionTag(tag))
+	}
+
+	modelVersion, err := m.store.CreateModelVersion(
+		ctx,
+		input.GetName(),
+		input.GetSource(),
+		input.GetRunId(),
+		tags,
+		input.GetRunLink(),
+		input.GetDescription(),
+	)
+	if err != nil {
+		return nil, err
+	}
+
+	return &protos.CreateModelVersion_Response{
+		ModelVersion: modelVersion.ToProto(),
 	}, nil
 }

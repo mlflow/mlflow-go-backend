@@ -28,16 +28,19 @@ type ModelVersion struct {
 func (mv ModelVersion) ToProto() *protos.ModelVersion {
 	modelVersion := protos.ModelVersion{
 		Name:                 utils.PtrTo(mv.Name),
+		Tags:                 make([]*protos.ModelVersionTag, 0, len(mv.Tags)),
+		Source:               utils.PtrTo(mv.Source),
+		Status:               utils.PtrTo(protos.ModelVersionStatus(protos.ModelVersionStatus_value[mv.Status])),
+		RunLink:              utils.PtrTo(mv.RunLink),
 		Version:              utils.PtrTo(strconv.Itoa(int(mv.Version))),
+		Description:          utils.PtrTo(mv.Description),
 		CurrentStage:         utils.PtrTo(mv.CurrentStage),
 		CreationTimestamp:    utils.PtrTo(mv.CreationTime),
 		LastUpdatedTimestamp: utils.PtrTo(mv.LastUpdatedTime),
-		Description:          utils.PtrTo(mv.Description),
-		UserId:               utils.PtrTo(mv.UserID),
-		Source:               utils.PtrTo(mv.Source),
-		Status:               utils.PtrTo(protos.ModelVersionStatus(protos.ModelVersionStatus_value[mv.Status])),
-		Tags:                 make([]*protos.ModelVersionTag, 0, len(mv.Tags)),
-		RunLink:              utils.PtrTo(mv.RunLink),
+	}
+
+	if mv.UserID != "" {
+		modelVersion.UserId = utils.PtrTo(mv.UserID)
 	}
 
 	if mv.RunID != "" {

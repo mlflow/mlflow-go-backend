@@ -10,6 +10,8 @@ import (
 
 const StageDeletedInternal = "Deleted_Internal"
 
+const ModelVersionStatusReady = "READY"
+
 // ModelVersion mapped from table <model_versions>.
 //
 //revive:disable:exported

@@ -5,6 +5,7 @@ import (
 	"database/sql"
 	"errors"
 	"fmt"
+	"net/url"
 	"strconv"
 	"strings"
 	"time"
@@ -16,6 +17,10 @@ import (
 	"github.com/mlflow/mlflow-go-backend/pkg/entities"
 	"github.com/mlflow/mlflow-go-backend/pkg/model_registry/store/sql/models"
 	"github.com/mlflow/mlflow-go-backend/pkg/protos"
+)
+
+const (
+	CreateModelVersionRetries = 3
 )
 
 func (m *ModelRegistrySQLStore) GetLatestVersions(
@@ -76,6 +81,104 @@ func (m *ModelRegistrySQLStore) GetLatestVersions(
 	}
 
 	return results, nil
+}
+
+//nolint:funlen,cyclop,staticcheck
+func (m *ModelRegistrySQLStore) CreateModelVersion(
+	ctx context.Context, name, source, runID string, tags []*entities.ModelVersionTag, runLink, description string,
+) (*entities.ModelVersion, *contract.Error) {
+	storageLocation := source
+
+	parsedSource, parsedSourceErr := url.Parse(source)
+	if parsedSourceErr != nil {
+		return nil, contract.NewErrorWith(
+			protos.ErrorCode_INTERNAL_ERROR,
+			fmt.Sprintf("failed to parse source %q", source),
+			parsedSourceErr,
+		)
+	}
+
+	if parsedSource.Scheme == "models" {
+		parsedModelURI, err := ParseModelURI(source)
+		if err != nil {
+			return nil, contract.NewErrorWith(
+				protos.ErrorCode_INTERNAL_ERROR,
+				fmt.Sprintf("Unable to fetch model from model URI source artifact location '%s'.", source),
+				parsedSourceErr,
+			)
+		}
+
+		downloadURI, contractErr := m.GetModelVersionDownloadURI(ctx, parsedModelURI.Name, parsedModelURI.Version)
+		if contractErr != nil {
+			return nil, contractErr
+		}
+
+		storageLocation = downloadURI
+	}
+
+	registeredModel, err := m.GetRegisteredModel(ctx, name)
+	if err != nil {
+		return nil, err
+	}
+
+	creationTime := time.Now().UnixMilli()
+	for range CreateModelVersionRetries {
+		registeredModel.LastUpdatedTime = creationTime
+		nextVersion := GetNextVersion(registeredModel)
+		modelVersion := &models.ModelVersion{
+			Name:            name,
+			Version:         nextVersion,
+			CreationTime:    creationTime,
+			LastUpdatedTime: creationTime,
+			Description:     sql.NullString{Valid: description != "", String: description},
+			Status:          models.ModelVersionStatusReady,
+			Source:          source,
+			RunID:           runID,
+			RunLink:         runLink,
+			CurrentStage:    models.ModelVersionStageNone,
+			StorageLocation: storageLocation,
+		}
+
+		modelTags := make([]models.ModelVersionTag, 0, len(tags))
+		for _, tag := range tags {
+			modelTags = append(modelTags, models.ModelVersionTag{
+				Key:     tag.Key,
+				Value:   tag.Value,
+				Name:    registeredModel.Name,
+				Version: nextVersion,
+			})
+		}
+
+		if err := m.db.Transaction(func(tx *gorm.DB) error {
+			if err := tx.Create(modelVersion).Error; err != nil {
+				return err
+			}
+			if len(modelTags) > 0 {
+				if err := tx.Create(modelTags).Error; err != nil {
+					return err
+				}
+				modelVersion.Tags = modelTags
+			}
+
+			return nil
+		}); err != nil {
+			return nil, contract.NewErrorWith(
+				protos.ErrorCode_INTERNAL_ERROR,
+				fmt.Sprintf("Model Version creation error (name=%s).", name),
+				err,
+			)
+		}
+
+		return modelVersion.ToEntity(), nil
+	}
+
+	return nil, contract.NewError(
+		protos.ErrorCode_INTERNAL_ERROR,
+		fmt.Sprintf(
+			"Model Version creation error (name=%s). Giving up after %d attempts.",
+			name, CreateModelVersionRetries,
+		),
+	)
 }
 
 func (m *ModelRegistrySQLStore) GetModelVersion(

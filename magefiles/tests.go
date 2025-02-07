@@ -34,6 +34,7 @@ func runPythonTests(pytestArgs []string) error {
 		// "--log-cli-level=DEBUG",
 		"--confcutdir=.",
 		"-k", "not [file",
+		"-vv",
 	}
 	args = append(args, pytestArgs...)
 
