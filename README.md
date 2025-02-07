@@ -16,7 +16,7 @@ pip install mlflow-go-backend
 
 `mlflow-go-backend` is meant to be a drop-in-replacement for `mlflow`.
 
-You can update your existing you used `mlflow` command with `mlflow-go`:
+You can update your existing `mlflow` command with `mlflow-go`:
 
 ```diff
 - mlflow server --backend-store-uri postgresql://postgres:postgres@localhost:5432/postgres

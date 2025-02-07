@@ -3,7 +3,6 @@ package service
 import (
 	"context"
 	"fmt"
-	"strconv"
 	"strings"
 
 	"github.com/mlflow/mlflow-go-backend/pkg/contract"
@@ -38,16 +37,7 @@ func (m *ModelRegistryService) DeleteModelVersion(
 func (m *ModelRegistryService) GetModelVersion(
 	ctx context.Context, input *protos.GetModelVersion,
 ) (*protos.GetModelVersion_Response, *contract.Error) {
-	// by some strange reason GetModelVersion.Version has a string type so we can't apply our validation,
-	// that's why such a custom validation exists to satisfy Python tests.
-	version := input.GetVersion()
-	if _, err := strconv.Atoi(version); err != nil {
-		return nil, contract.NewErrorWith(
-			protos.ErrorCode_INVALID_PARAMETER_VALUE, "Model version must be an integer", err,
-		)
-	}
-
-	modelVersion, err := m.store.GetModelVersion(ctx, input.GetName(), version, true)
+	modelVersion, err := m.store.GetModelVersion(ctx, input.GetName(), input.GetVersion(), true)
 	if err != nil {
 		return nil, err
 	}
