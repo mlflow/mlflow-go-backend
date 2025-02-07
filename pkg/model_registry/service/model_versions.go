@@ -19,8 +19,13 @@ func (m *ModelRegistryService) GetLatestVersions(
 		return nil, err
 	}
 
+	modelVersions := make([]*protos.ModelVersion, 0, len(latestVersions))
+	for _, lastVersion := range latestVersions {
+		modelVersions = append(modelVersions, lastVersion.ToProto())
+	}
+
 	return &protos.GetLatestVersions_Response{
-		ModelVersions: latestVersions,
+		ModelVersions: modelVersions,
 	}, nil
 }
 

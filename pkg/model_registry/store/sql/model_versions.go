@@ -20,7 +20,7 @@ import (
 
 func (m *ModelRegistrySQLStore) GetLatestVersions(
 	ctx context.Context, name string, stages []string,
-) ([]*protos.ModelVersion, *contract.Error) {
+) ([]*entities.ModelVersion, *contract.Error) {
 	if _, err := m.GetRegisteredModel(ctx, name); err != nil {
 		return nil, err
 	}
@@ -70,9 +70,9 @@ func (m *ModelRegistrySQLStore) GetLatestVersions(
 		)
 	}
 
-	results := make([]*protos.ModelVersion, 0, len(modelVersions))
+	results := make([]*entities.ModelVersion, 0, len(modelVersions))
 	for _, modelVersion := range modelVersions {
-		results = append(results, modelVersion.ToProto())
+		results = append(results, modelVersion.ToEntity())
 	}
 
 	return results, nil
