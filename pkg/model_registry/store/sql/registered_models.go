@@ -15,6 +15,11 @@ import (
 	"github.com/mlflow/mlflow-go-backend/pkg/entities"
 	"github.com/mlflow/mlflow-go-backend/pkg/model_registry/store/sql/models"
 	"github.com/mlflow/mlflow-go-backend/pkg/protos"
+	"github.com/mlflow/mlflow-go-backend/pkg/utils"
+)
+
+const (
+	IsPromptTagKey = "mlflow.prompt.is_prompt"
 )
 
 func (m *ModelRegistrySQLStore) GetRegisteredModel(
@@ -251,9 +256,19 @@ func (m *ModelRegistrySQLStore) CreateRegisteredModel(
 
 	if err := m.db.WithContext(ctx).Create(&registeredModel).Error; err != nil {
 		if errors.Is(err, gorm.ErrDuplicatedKey) {
-			return nil, contract.NewError(
-				protos.ErrorCode_RESOURCE_ALREADY_EXISTS,
-				fmt.Sprintf("Registered Model (name=%s) already exists.", registeredModel.Name),
+			existingRegisteredModel, err := m.GetRegisteredModel(ctx, name)
+			if err != nil {
+				return nil, err
+			}
+
+			return nil, HandleResourceAlreadyExistError(
+				name,
+				utils.FindElementByProperty(existingRegisteredModel.Tags, func(tag *entities.RegisteredModelTag) bool {
+					return tag.Key == IsPromptTagKey
+				}),
+				utils.FindElementByProperty(tags, func(tag *entities.RegisteredModelTag) bool {
+					return tag.Key == IsPromptTagKey
+				}),
 			)
 		}
 
