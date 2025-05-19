@@ -4,6 +4,7 @@ import shlex
 
 import click
 import mlflow.cli
+import mlflow.server
 import mlflow.version
 from mlflow.utils import find_free_port
 
