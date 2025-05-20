@@ -32,10 +32,10 @@ Every existing setting of [mlflow server](https://mlflow.org/docs/latest/cli.htm
 
 ```py
 import mlflow
-import mlflow_go
+import mlflow_go_backend
 
 # Enable the Go client implementation (disabled by default)
-mlflow_go.enable_go()
+mlflow_go_backend.enable_go()
 
 # Set the tracking URI (you can also set it via the environment variable MLFLOW_TRACKING_URI)
 # Currently only database URIs are supported
@@ -54,14 +54,14 @@ with mlflow.start_run():
 ```py
 import logging
 import mlflow
-import mlflow_go
+import mlflow_go_backend
 
 # Enable debug logging
 logging.basicConfig()
-logging.getLogger('mlflow_go').setLevel(logging.DEBUG)
+logging.getLogger('mlflow_go_backend').setLevel(logging.DEBUG)
 
 # Enable the Go client implementation (disabled by default)
-mlflow_go.enable_go()
+mlflow_go_backend.enable_go()
 
 # Instantiate the tracking store with a database URI
 tracking_store = mlflow.tracking._tracking_service.utils._get_store('sqlite:///mlflow.db')
