@@ -7,7 +7,7 @@ from mlflow.entities import (
     Metric,
     Run,
     RunInfo,
-    TraceInfo,
+    TraceInfoV2,
     ViewType,
 )
 from mlflow.entities.trace_status import TraceStatus
@@ -246,7 +246,7 @@ class _TrackingStore:
         timestamp_ms: int,
         request_metadata: Dict[str, str],
         tags: Dict[str, str],
-    ) -> TraceInfo:
+    ) -> TraceInfoV2:
         request = StartTrace(
             experiment_id=experiment_id,
             timestamp_ms=timestamp_ms,
@@ -259,7 +259,7 @@ class _TrackingStore:
             tags=[TraceTag(key=key, value=value) for key, value in tags.items()] if tags else [],
         )
         response = self.service.call_endpoint(get_lib().TrackingServiceStartTrace, request)
-        entity = TraceInfo.from_proto(response.trace_info)
+        entity = TraceInfoV2.from_proto(response.trace_info)
         if entity.execution_time_ms == 0:
             entity.execution_time_ms = None
         return entity
@@ -271,7 +271,7 @@ class _TrackingStore:
         status: TraceStatus,
         request_metadata: Dict[str, str],
         tags: Dict[str, str],
-    ) -> TraceInfo:
+    ) -> TraceInfoV2:
         request = EndTrace(
             request_id=request_id,
             timestamp_ms=timestamp_ms,
@@ -287,12 +287,12 @@ class _TrackingStore:
             else [],
         )
         response = self.service.call_endpoint(get_lib().TrackingServiceEndTrace, request)
-        return TraceInfo.from_proto(response.trace_info)
+        return TraceInfoV2.from_proto(response.trace_info)
 
-    def get_trace_info(self, request_id) -> TraceInfo:
+    def get_trace_info(self, request_id) -> TraceInfoV2:
         request = GetTraceInfo(request_id=request_id)
         response = self.service.call_endpoint(get_lib().TrackingServiceGetTraceInfo, request)
-        entity = TraceInfo.from_proto(response.trace_info)
+        entity = TraceInfoV2.from_proto(response.trace_info)
         if entity.execution_time_ms == 0:
             entity.execution_time_ms = None
         return entity

@@ -5,8 +5,10 @@ import (
 )
 
 const (
-	SourceTypeDataset  = "DATASET"
-	DestinationTypeRun = "RUN"
+	SourceTypeDataset          = "DATASET"
+	DestinationTypeRun         = "RUN"
+	DestinationTypeModelInput  = "MODEL_INPUT"
+	DestinationTypeModelOutput = "MODEL_OUTPUT"
 )
 
 // Input mapped from table <inputs>.
@@ -20,7 +22,11 @@ type Input struct {
 	Dataset         Dataset    `gorm:"foreignKey:ID;references:SourceID"`
 }
 
-func (i *Input) ToEntity() *entities.DatasetInput {
+func (i Input) TableName() string {
+	return "inputs"
+}
+
+func (i Input) DatasetToEntity() *entities.DatasetInput {
 	tags := make([]*entities.InputTag, 0, len(i.Tags))
 	for _, tag := range i.Tags {
 		tags = append(tags, tag.ToEntity())
@@ -29,6 +35,12 @@ func (i *Input) ToEntity() *entities.DatasetInput {
 	return &entities.DatasetInput{
 		Tags:    tags,
 		Dataset: i.Dataset.ToEntity(),
+	}
+}
+
+func (i Input) ModelInputToEntity() *entities.ModelInput {
+	return &entities.ModelInput{
+		ModelID: i.DestinationID,
 	}
 }
 

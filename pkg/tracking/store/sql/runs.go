@@ -59,6 +59,7 @@ func checkRunIsActive(transaction *gorm.DB, runID string) *contract.Error {
 	return nil
 }
 
+//nolint:funlen
 func (s TrackingSQLStore) SearchRuns(
 	ctx context.Context,
 	experimentIDs []string, filter string,
@@ -97,9 +98,19 @@ func (s TrackingSQLStore) SearchRuns(
 	// Actual query
 	var runs []models.Run
 
-	transaction.Preload("LatestMetrics").Preload("Params").Preload("Tags").
-		Preload("Inputs", "inputs.destination_type = 'RUN'").
-		Preload("Inputs.Dataset").Preload("Inputs.Tags").Find(&runs)
+	transaction.Preload(
+		"LatestMetrics",
+	).Preload(
+		"Params",
+	).Preload(
+		"Tags",
+	).Preload(
+		"Inputs", "inputs.destination_type = ?", models.DestinationTypeRun,
+	).Preload(
+		"Inputs.Dataset",
+	).Preload(
+		"Inputs.Tags",
+	).Find(&runs)
 
 	if transaction.Error != nil {
 		return nil, "", contract.NewErrorWith(
@@ -205,6 +216,13 @@ func (s TrackingSQLStore) GetRun(ctx context.Context, runID string) (*entities.R
 		}
 
 		return nil, contract.NewErrorWith(protos.ErrorCode_INTERNAL_ERROR, "failed to get run", err)
+	}
+
+	if err := s.db.WithContext(ctx).Where(
+		"source_type = ? AND destination_type = ? AND source_id = ?",
+		models.SourceTypeRunOutput, models.DestinationTypeModelOutput, runID,
+	).Find(&run.Outputs).Error; err != nil {
+		return nil, contract.NewErrorWith(protos.ErrorCode_INTERNAL_ERROR, "failed to get run outputs", err)
 	}
 
 	return run.ToEntity(), nil
@@ -389,6 +407,11 @@ func (s TrackingSQLStore) LogBatch(
 		}
 
 		contractError = s.logMetricsWithTransaction(transaction, runID, metrics)
+		if contractError != nil {
+			return contractError
+		}
+
+		contractError = s.logModelMetricsWithTransaction(transaction, runID, metrics)
 		if contractError != nil {
 			return contractError
 		}

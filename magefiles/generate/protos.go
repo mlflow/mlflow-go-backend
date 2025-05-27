@@ -11,6 +11,7 @@ const MLFlowCommit = "3effa7380c86946f4557f03aa81119a097d8b433"
 
 var protoFiles = map[string]string{
 	"databricks.proto":           "github.com/mlflow/mlflow-go-backend/pkg/protos",
+	"assessments.proto":          "github.com/mlflow/mlflow-go-backend/pkg/protos",
 	"service.proto":              "github.com/mlflow/mlflow-go-backend/pkg/protos",
 	"model_registry.proto":       "github.com/mlflow/mlflow-go-backend/pkg/protos",
 	"databricks_artifacts.proto": "github.com/mlflow/mlflow-go-backend/pkg/protos",

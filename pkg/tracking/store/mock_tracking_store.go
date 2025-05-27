@@ -1001,17 +1001,17 @@ func (_c *MockTrackingStore_LogBatch_Call) RunAndReturn(run func(context.Context
 	return _c
 }
 
-// LogInputs provides a mock function with given fields: ctx, runID, datasets
-func (_m *MockTrackingStore) LogInputs(ctx context.Context, runID string, datasets []*entities.DatasetInput) *contract.Error {
-	ret := _m.Called(ctx, runID, datasets)
+// LogInputs provides a mock function with given fields: ctx, runID, modelInputs, datasets
+func (_m *MockTrackingStore) LogInputs(ctx context.Context, runID string, modelInputs []*entities.ModelInput, datasets []*entities.DatasetInput) *contract.Error {
+	ret := _m.Called(ctx, runID, modelInputs, datasets)
 
 	if len(ret) == 0 {
 		panic("no return value specified for LogInputs")
 	}
 
 	var r0 *contract.Error
-	if rf, ok := ret.Get(0).(func(context.Context, string, []*entities.DatasetInput) *contract.Error); ok {
-		r0 = rf(ctx, runID, datasets)
+	if rf, ok := ret.Get(0).(func(context.Context, string, []*entities.ModelInput, []*entities.DatasetInput) *contract.Error); ok {
+		r0 = rf(ctx, runID, modelInputs, datasets)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).(*contract.Error)
@@ -1029,14 +1029,15 @@ type MockTrackingStore_LogInputs_Call struct {
 // LogInputs is a helper method to define mock.On call
 //   - ctx context.Context
 //   - runID string
+//   - modelInputs []*entities.ModelInput
 //   - datasets []*entities.DatasetInput
-func (_e *MockTrackingStore_Expecter) LogInputs(ctx interface{}, runID interface{}, datasets interface{}) *MockTrackingStore_LogInputs_Call {
-	return &MockTrackingStore_LogInputs_Call{Call: _e.mock.On("LogInputs", ctx, runID, datasets)}
+func (_e *MockTrackingStore_Expecter) LogInputs(ctx interface{}, runID interface{}, modelInputs interface{}, datasets interface{}) *MockTrackingStore_LogInputs_Call {
+	return &MockTrackingStore_LogInputs_Call{Call: _e.mock.On("LogInputs", ctx, runID, modelInputs, datasets)}
 }
 
-func (_c *MockTrackingStore_LogInputs_Call) Run(run func(ctx context.Context, runID string, datasets []*entities.DatasetInput)) *MockTrackingStore_LogInputs_Call {
+func (_c *MockTrackingStore_LogInputs_Call) Run(run func(ctx context.Context, runID string, modelInputs []*entities.ModelInput, datasets []*entities.DatasetInput)) *MockTrackingStore_LogInputs_Call {
 	_c.Call.Run(func(args mock.Arguments) {
-		run(args[0].(context.Context), args[1].(string), args[2].([]*entities.DatasetInput))
+		run(args[0].(context.Context), args[1].(string), args[2].([]*entities.ModelInput), args[3].([]*entities.DatasetInput))
 	})
 	return _c
 }
@@ -1046,7 +1047,7 @@ func (_c *MockTrackingStore_LogInputs_Call) Return(_a0 *contract.Error) *MockTra
 	return _c
 }
 
-func (_c *MockTrackingStore_LogInputs_Call) RunAndReturn(run func(context.Context, string, []*entities.DatasetInput) *contract.Error) *MockTrackingStore_LogInputs_Call {
+func (_c *MockTrackingStore_LogInputs_Call) RunAndReturn(run func(context.Context, string, []*entities.ModelInput, []*entities.DatasetInput) *contract.Error) *MockTrackingStore_LogInputs_Call {
 	_c.Call.Return(run)
 	return _c
 }

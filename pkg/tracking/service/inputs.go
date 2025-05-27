@@ -20,7 +20,12 @@ func (ts TrackingService) LogInputs(
 		datasets = append(datasets, entities.NewDatasetInputFromProto(d))
 	}
 
-	if err := ts.Store.LogInputs(ctx, input.GetRunId(), datasets); err != nil {
+	modelInputs := make([]*entities.ModelInput, 0, len(input.GetModels()))
+	for _, m := range input.GetModels() {
+		modelInputs = append(modelInputs, entities.NewModelInputFromProto(m))
+	}
+
+	if err := ts.Store.LogInputs(ctx, input.GetRunId(), modelInputs, datasets); err != nil {
 		return nil, err
 	}
 

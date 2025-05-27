@@ -20,9 +20,10 @@ func RunStatusToProto(status string) *protos.RunStatus {
 }
 
 type Run struct {
-	Info   *RunInfo
-	Data   *RunData
-	Inputs *RunInputs
+	Info    *RunInfo
+	Data    *RunData
+	Inputs  *RunInputs
+	Outputs *RunOutputs
 }
 
 func (r Run) ToProto() *protos.Run {
@@ -42,9 +43,9 @@ func (r Run) ToProto() *protos.Run {
 	}
 
 	data := &protos.RunData{
-		Metrics: metrics,
-		Params:  params,
 		Tags:    tags,
+		Params:  params,
+		Metrics: metrics,
 	}
 
 	datasetInputs := make([]*protos.DatasetInput, 0, len(r.Inputs.DatasetInputs))
@@ -52,8 +53,14 @@ func (r Run) ToProto() *protos.Run {
 		datasetInputs = append(datasetInputs, input.ToProto())
 	}
 
-	inputs := &protos.RunInputs{
-		DatasetInputs: datasetInputs,
+	modelOutputs := make([]*protos.ModelOutput, 0, len(r.Outputs.ModelOutputs))
+	for _, output := range r.Outputs.ModelOutputs {
+		modelOutputs = append(modelOutputs, output.ToProto())
+	}
+
+	modelInputs := make([]*protos.ModelInput, 0, len(r.Inputs.ModelInputs))
+	for _, input := range r.Inputs.ModelInputs {
+		modelInputs = append(modelInputs, input.ToProto())
 	}
 
 	return &protos.Run{
@@ -69,7 +76,13 @@ func (r Run) ToProto() *protos.Run {
 			ArtifactUri:    &r.Info.ArtifactURI,
 			LifecycleStage: utils.PtrTo(r.Info.LifecycleStage),
 		},
-		Data:   data,
-		Inputs: inputs,
+		Data: data,
+		Inputs: &protos.RunInputs{
+			ModelInputs:   modelInputs,
+			DatasetInputs: datasetInputs,
+		},
+		Outputs: &protos.RunOutputs{
+			ModelOutputs: modelOutputs,
+		},
 	}
 }

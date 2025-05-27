@@ -8,11 +8,14 @@ import (
 )
 
 type Metric struct {
-	Key       string
-	Value     float64
-	Timestamp int64
-	Step      int64
-	IsNaN     bool
+	Key           string
+	Value         float64
+	Timestamp     int64
+	Step          int64
+	IsNaN         bool
+	ModelID       string
+	DatasetName   string
+	DatasetDigest string
 }
 
 func (m Metric) ToProto() *protos.Metric {
@@ -35,18 +38,24 @@ func (m Metric) ToProto() *protos.Metric {
 
 func MetricFromProto(proto *protos.Metric) *Metric {
 	return &Metric{
-		Key:       proto.GetKey(),
-		Value:     proto.GetValue(),
-		Timestamp: proto.GetTimestamp(),
-		Step:      proto.GetStep(),
+		Key:           proto.GetKey(),
+		Value:         proto.GetValue(),
+		Timestamp:     proto.GetTimestamp(),
+		Step:          proto.GetStep(),
+		ModelID:       proto.GetModelId(),
+		DatasetName:   proto.GetDatasetName(),
+		DatasetDigest: proto.GetDatasetDigest(),
 	}
 }
 
 func MetricFromLogMetricProtoInput(input *protos.LogMetric) *Metric {
 	return &Metric{
-		Key:       input.GetKey(),
-		Value:     input.GetValue(),
-		Timestamp: input.GetTimestamp(),
-		Step:      input.GetStep(),
+		Key:           input.GetKey(),
+		Value:         input.GetValue(),
+		Timestamp:     input.GetTimestamp(),
+		Step:          input.GetStep(),
+		ModelID:       input.GetModelId(),
+		DatasetName:   input.GetDatasetName(),
+		DatasetDigest: input.GetDatasetDigest(),
 	}
 }

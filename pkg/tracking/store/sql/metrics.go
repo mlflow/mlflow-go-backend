@@ -161,6 +161,37 @@ func (s TrackingSQLStore) logMetricsWithTransaction(
 	return nil
 }
 
+func (s TrackingSQLStore) logModelMetricsWithTransaction(
+	transaction *gorm.DB, runID string, metrics []*entities.Metric,
+) *contract.Error {
+	// Duplicate metric values are eliminated
+	loggedModelMetrics := make([]models.LoggedModelMetric, 0, len(metrics))
+	seenLoggedModelMetrics := make(map[models.LoggedModelMetric]struct{})
+
+	for _, metric := range metrics {
+		currentMetric := models.NewLoggedMetricFromEntity(runID, metric)
+		if _, ok := seenLoggedModelMetrics[*currentMetric]; !ok {
+			seenLoggedModelMetrics[*currentMetric] = struct{}{}
+
+			loggedModelMetrics = append(loggedModelMetrics, *currentMetric)
+		}
+	}
+
+	if err := transaction.Clauses(
+		clause.OnConflict{DoNothing: true},
+	).CreateInBatches(
+		loggedModelMetrics, metricsBatchSize,
+	).Error; err != nil {
+		return contract.NewErrorWith(
+			protos.ErrorCode_INTERNAL_ERROR,
+			fmt.Sprintf("error creating logged model metrics in batch for run_uuid %q", runID),
+			err,
+		)
+	}
+
+	return nil
+}
+
 func (s TrackingSQLStore) LogMetric(ctx context.Context, runID string, metric *entities.Metric) *contract.Error {
 	err := s.db.WithContext(ctx).Transaction(func(transaction *gorm.DB) error {
 		contractError := checkRunIsActive(transaction, runID)
@@ -169,6 +200,12 @@ func (s TrackingSQLStore) LogMetric(ctx context.Context, runID string, metric *e
 		}
 
 		if err := s.logMetricsWithTransaction(transaction, runID, []*entities.Metric{
+			metric,
+		}); err != nil {
+			return err
+		}
+
+		if err := s.logModelMetricsWithTransaction(transaction, runID, []*entities.Metric{
 			metric,
 		}); err != nil {
 			return err

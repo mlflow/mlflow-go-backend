@@ -121,6 +121,8 @@ type (
 	}
 
 	InputTrackingStore interface {
-		LogInputs(ctx context.Context, runID string, datasets []*entities.DatasetInput) *contract.Error
+		LogInputs(
+			ctx context.Context, runID string, modelInputs []*entities.ModelInput, datasets []*entities.DatasetInput,
+		) *contract.Error
 	}
 )

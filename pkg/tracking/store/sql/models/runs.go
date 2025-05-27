@@ -27,7 +27,8 @@ type Run struct {
 	Tags           []Tag
 	Metrics        []Metric
 	LatestMetrics  []LatestMetric
-	Inputs         []Input `gorm:"foreignKey:DestinationID"`
+	Inputs         []Input  `gorm:"foreignKey:DestinationID"`
+	Outputs        []Output `gorm:"foreignKey:DestinationID"`
 }
 
 type RunStatus string
@@ -46,15 +47,22 @@ const (
 
 type SourceType string
 
+func (s SourceType) String() string {
+	return string(s)
+}
+
 const (
-	SourceTypeNotebook SourceType = "NOTEBOOK"
-	SourceTypeJob      SourceType = "JOB"
-	SourceTypeProject  SourceType = "PROJECT"
-	SourceTypeLocal    SourceType = "LOCAL"
-	SourceTypeUnknown  SourceType = "UNKNOWN"
-	SourceTypeRecipe   SourceType = "RECIPE"
+	SourceTypeNotebook  SourceType = "NOTEBOOK"
+	SourceTypeJob       SourceType = "JOB"
+	SourceTypeProject   SourceType = "PROJECT"
+	SourceTypeLocal     SourceType = "LOCAL"
+	SourceTypeUnknown   SourceType = "UNKNOWN"
+	SourceTypeRecipe    SourceType = "RECIPE"
+	SourceTypeRunInput  SourceType = "RUN_INPUT"
+	SourceTypeRunOutput SourceType = "RUN_OUTPUT"
 )
 
+//nolint:funlen
 func (r Run) ToEntity() *entities.Run {
 	metrics := make([]*entities.Metric, 0, len(r.LatestMetrics))
 	for _, metric := range r.LatestMetrics {
@@ -73,7 +81,17 @@ func (r Run) ToEntity() *entities.Run {
 
 	datasetInputs := make([]*entities.DatasetInput, 0, len(r.Inputs))
 	for _, input := range r.Inputs {
-		datasetInputs = append(datasetInputs, input.ToEntity())
+		datasetInputs = append(datasetInputs, input.DatasetToEntity())
+	}
+
+	modelOutputs := make([]*entities.ModelOutput, 0, len(r.Outputs))
+	for _, output := range r.Outputs {
+		modelOutputs = append(modelOutputs, output.ToEntity())
+	}
+
+	modelInputs := make([]*entities.ModelInput, 0, len(r.Inputs))
+	for _, input := range r.Inputs {
+		modelInputs = append(modelInputs, input.ModelInputToEntity())
 	}
 
 	var endTime *int64
@@ -100,7 +118,11 @@ func (r Run) ToEntity() *entities.Run {
 			Metrics: metrics,
 		},
 		Inputs: &entities.RunInputs{
+			ModelInputs:   modelInputs,
 			DatasetInputs: datasetInputs,
+		},
+		Outputs: &entities.RunOutputs{
+			ModelOutputs: modelOutputs,
 		},
 	}
 }

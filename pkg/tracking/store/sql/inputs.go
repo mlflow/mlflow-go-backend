@@ -147,9 +147,9 @@ func mkDataset(
 	}
 }
 
-//nolint:funlen,cyclop
+//nolint:funlen,cyclop,gocognit
 func (s TrackingSQLStore) LogInputs(
-	ctx context.Context, runID string, datasets []*entities.DatasetInput,
+	ctx context.Context, runID string, modelInputs []*entities.ModelInput, datasets []*entities.DatasetInput,
 ) *contract.Error {
 	err := s.db.WithContext(ctx).Transaction(func(transaction *gorm.DB) error {
 		contractError := checkRunIsActive(transaction, runID)
@@ -183,8 +183,8 @@ func (s TrackingSQLStore) LogInputs(
 			return contractError
 		}
 
-		datasetToInsert := make([]*models.Dataset, 0)
 		inputToInsert := make([]*models.Input, 0)
+		datasetToInsert := make([]*models.Dataset, 0)
 		inputTagsToInsert := make([]*models.InputTag, 0)
 
 		for _, dataset := range datasetInputs {
@@ -207,6 +207,17 @@ func (s TrackingSQLStore) LogInputs(
 			}
 		}
 
+		modelInputsToInsert := make([]*models.Input, 0, len(modelInputs))
+		for _, modelInput := range modelInputs {
+			modelInputsToInsert = append(modelInputsToInsert, &models.Input{
+				ID:              uuid.NewString(),
+				SourceType:      models.SourceTypeRunInput.String(),
+				SourceID:        runID,
+				DestinationType: models.DestinationTypeModelInput,
+				DestinationID:   modelInput.ModelID,
+			})
+		}
+
 		err = transaction.CreateInBatches(&datasetToInsert, batchSize).Error
 		if err != nil {
 			return err
@@ -218,6 +229,11 @@ func (s TrackingSQLStore) LogInputs(
 		}
 
 		err = transaction.CreateInBatches(&inputTagsToInsert, batchSize).Error
+		if err != nil {
+			return err
+		}
+
+		err = transaction.CreateInBatches(&modelInputsToInsert, batchSize).Error
 		if err != nil {
 			return err
 		}
