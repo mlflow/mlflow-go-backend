@@ -3,6 +3,9 @@ dist/
 *.egg-info/
 *.so
 
+# Compiled Go shared library
+pkg/lib/lib
+
 # Runs
 mlruns/
 
