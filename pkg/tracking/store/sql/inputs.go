@@ -171,9 +171,9 @@ func (s TrackingSQLStore) LogInputs(
 		// keeping the first occurrence
 		datasetNamesToCheck, datasetDigestsToCheck, datasetInputs := dedupDatasetInputs(datasets)
 
-		existingDatasets, constractError := findExistingDatasets(transaction, datasetNamesToCheck, datasetDigestsToCheck)
-		if constractError != nil {
-			return constractError
+		existingDatasets, contractError := findExistingDatasets(transaction, datasetNamesToCheck, datasetDigestsToCheck)
+		if contractError != nil {
+			return contractError
 		}
 
 		datasetUuids, datasetUuidsValues := collectDatasetUuids(existingDatasets)

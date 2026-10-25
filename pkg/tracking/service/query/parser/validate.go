@@ -301,7 +301,7 @@ func validateAttributeValue(key string, value Value) (interface{}, error) {
 }
 
 // Validate an expression according to the mlflow domain.
-// This represent is a simple type-checker for the expression.
+// This is a simple type-checker for the expression.
 // Not every identifier is valid according to the mlflow domain.
 // The same for the value part.
 func ValidateExpression(expression *CompareExpr) (*ValidCompareExpr, error) {
